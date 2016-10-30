@@ -7,19 +7,10 @@ import java.io.Serializable;
  */
 
 public class ResponseBean<T> implements Serializable {
-    private boolean success;
     private String message;
     private int code;
     private T result;
     private long total;
-
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
 
     public String getMessage() {
         return message;

@@ -65,12 +65,12 @@ public class HomeActivity extends Activity {
             }
         });
 
-        ApiHelper.getTestService().getTestText().subscribeOn(Schedulers.io())
+        ApiHelper.getTestText().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<ResponseBean<String>>() {
+                .subscribe(new Action1<String>() {
                     @Override
-                    public void call(ResponseBean<String> stringResponseBean) {
-                        getfromserver.setText(stringResponseBean.getResult());
+                    public void call(String s) {
+                        getfromserver.setText(s);
                     }
                 });
     }

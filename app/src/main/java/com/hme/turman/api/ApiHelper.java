@@ -1,7 +1,11 @@
 package com.hme.turman.api;
 
+import com.hme.turman.api.bean.ResponseBean;
 import com.hme.turman.api.service.TestService;
 import com.hme.turman.api.service.UserAccountService;
+import com.hme.turman.utils.RetrofitUtil;
+
+import rx.Observable;
 
 /**
  * Created by lebro on 2016/10/30.
@@ -21,8 +25,6 @@ public class ApiHelper {
         return userAccountService;
     }
 
-
-
     //test
     private static TestService testService;
     public static TestService getTestService() {
@@ -30,5 +32,11 @@ public class ApiHelper {
             testService = RetrofitHelper.createRetrofit(null,false,ApiContents.TEST_URL).create(TestService.class);
         }
         return testService;
+    }
+
+    public static Observable<String> getTestText() {
+        return getTestService().getTestText()
+                .compose(RetrofitUtil.applyIoSchedulers())
+                .compose(RetrofitUtil.handleResult());
     }
 }
