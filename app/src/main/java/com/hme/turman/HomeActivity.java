@@ -6,12 +6,16 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hme.turman.api.ApiHelper;
+import com.hme.turman.api.bean.DemoBean;
+import com.hme.turman.api.bean.ResponseBean;
 import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.List;
 import java.util.Set;
 
 import butterknife.BindView;
@@ -29,6 +33,8 @@ import rx.schedulers.Schedulers;
 public class HomeActivity extends Activity {
     @BindView(R.id.test)
     TextView test;
+    @BindView(R.id.getfromserver)
+    TextView getfromserver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +64,15 @@ public class HomeActivity extends Activity {
                 Logger.i("别名设置回调:"+i);
             }
         });
+
+        ApiHelper.getTestService().getTestText().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<ResponseBean<String>>() {
+                    @Override
+                    public void call(ResponseBean<String> stringResponseBean) {
+                        getfromserver.setText(stringResponseBean.getResult());
+                    }
+                });
     }
 
     @Override

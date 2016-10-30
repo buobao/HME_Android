@@ -1,6 +1,7 @@
 package com.hme.turman;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.orhanobut.logger.LogLevel;
@@ -13,9 +14,16 @@ import cn.jpush.android.api.JPushInterface;
  */
 
 public class HmeApplication extends Application {
+    private static Context mContext;
+
+    public static Context getContext() {
+        return mContext;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        mContext = this;
         //百度地图初始化
         SDKInitializer.initialize(this);
         //logger
