@@ -7,15 +7,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hme.turman.api.ApiHelper;
-import com.hme.turman.api.bean.DemoBean;
-import com.hme.turman.api.bean.ResponseBean;
 import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.List;
 import java.util.Set;
 
 import butterknife.BindView;
