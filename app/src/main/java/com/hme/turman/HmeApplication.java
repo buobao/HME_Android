@@ -3,7 +3,6 @@ package com.hme.turman;
 import android.app.Application;
 import android.content.Context;
 
-import com.baidu.mapapi.SDKInitializer;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 
@@ -24,8 +23,6 @@ public class HmeApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mContext = this;
-        //百度地图初始化
-        SDKInitializer.initialize(this);
         //logger
         Logger.init(BuildConfig.LOGGER_TAG)
                 .methodCount(1)

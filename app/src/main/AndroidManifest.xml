@@ -31,7 +31,7 @@
         android:theme="@style/AppTheme"
         android:name=".HmeApplication">
 
-        <activity android:name=".HomeActivity"
+        <activity android:name=".ui.activity.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -42,14 +42,10 @@
         <activity android:name=".SecondActivity"/>
         <activity android:name=".MapActivity"/>
 
-        <!--百度地图配置-->
-        <service
-            android:name="com.baidu.location.f"
-            android:enabled="true"
-            android:process=":remote"/>
+        <!--高德地图配置-->
         <meta-data
-            android:name="com.baidu.lbsapi.API_KEY"
-            android:value="NwQUPdZZpRX2R06FZla3fEgm3FgKa1OK"/>
+            android:name="com.amap.api.v2.apikey"
+            android:value="f968b78e40731a51da071656d71fb28a"/>
 
     </application>
 

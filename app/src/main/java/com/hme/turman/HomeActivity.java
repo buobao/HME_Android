@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hme.turman.api.ApiHelper;
 import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
@@ -62,14 +61,14 @@ public class HomeActivity extends Activity {
             }
         });
 
-        ApiHelper.getTestText().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<String>() {
-                    @Override
-                    public void call(String s) {
-                        getfromserver.setText(s);
-                    }
-                });
+//        ApiHelper.getTestText().subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Action1<String>() {
+//                    @Override
+//                    public void call(String s) {
+//                        getfromserver.setText(s);
+//                    }
+//                });
     }
 
     @Override

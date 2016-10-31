@@ -3,20 +3,22 @@ package com.hme.turman;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.baidu.mapapi.SDKInitializer;
-import com.baidu.mapapi.map.MapView;
+import com.amap.api.maps.AMap;
+import com.amap.api.maps.MapView;
 import com.hme.turman.base.BaseActivity;
-import com.hme.turman.utils.LocationUtil;
 
 import butterknife.BindView;
+
 
 /**
  * Created by diaoqf on 2016/10/28.
  */
 
 public class MapActivity extends BaseActivity {
-    @BindView(R.id.bmapView)
-    MapView mMapView;
+    @BindView(R.id.map)
+    MapView mapView;
+
+    private AMap map;
 
     @Override
     protected int getContentLayout() {
@@ -24,28 +26,35 @@ public class MapActivity extends BaseActivity {
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        LocationUtil.init(this);
-        LocationUtil.start(2,false);
+    protected void init(Bundle savedInstanceState) {
+        mapView.onCreate(savedInstanceState);
+
+        map = mapView.getMap();
+        map.setMapType(AMap.MAP_TYPE_NIGHT); //AMap.LOCATION_TYPE_LOCATE |
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mMapView.onResume();
+        mapView.onResume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mMapView.onPause();
+        mapView.onPause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mMapView.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
     }
 
     @Override
