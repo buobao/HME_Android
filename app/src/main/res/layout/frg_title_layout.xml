@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_18"
+            android:textColor="@color/deep_text_color"
+            android:layout_centerInParent="true"
+            android:text="title" />
+
+        <TextView
+            android:id="@+id/menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/base_margin_right"
+            android:layout_centerVertical="true"
+            android:textColor="@color/app_color"
+            android:textSize="@dimen/text_18"
+            android:visibility="gone"
+            android:text="Help" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_height_thin"
+        android:background="@color/base_line_color" />
+
+</merge>
