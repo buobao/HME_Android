@@ -11,6 +11,8 @@ import android.widget.Toast;
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.ButterKnife;
+import rx.Subscriber;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by diaoqf on 2016/10/31.
@@ -19,10 +21,12 @@ import butterknife.ButterKnife;
 public abstract class BaseFragment extends Fragment {
 
     protected LayoutInflater inflater;
+    protected CompositeSubscription mCompositeSubscription;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mCompositeSubscription = new CompositeSubscription();
         this.inflater = inflater;
         View view = inflater.inflate(getLayoutId(), container, false);
 
@@ -46,7 +50,14 @@ public abstract class BaseFragment extends Fragment {
         if (useEventBus()) {
             EventBus.getDefault().unregister(this);
         }
+        if (mCompositeSubscription != null && mCompositeSubscription.hasSubscriptions()) {
+            mCompositeSubscription.unsubscribe();
+        }
         super.onDestroy();
+    }
+    
+    protected void addTask(Subscriber subscriber) {
+        mCompositeSubscription.add(subscriber);
     }
 
     /**

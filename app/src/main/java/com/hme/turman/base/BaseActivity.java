@@ -7,8 +7,11 @@ import android.support.v7.app.AppCompatDelegate;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.ButterKnife;
+import rx.Subscriber;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by diaoqf on 2016/10/28.
@@ -20,9 +23,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
+    protected CompositeSubscription mCompositeSubscription;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mCompositeSubscription = new CompositeSubscription();
         setContentView(getContentLayout());
         if (useBindFrame()) {
             ButterKnife.bind(this);
@@ -35,11 +41,18 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract void init(Bundle savedInstanceState);
 
+    protected void addTask(Subscriber subscriber) {
+        mCompositeSubscription.add(subscriber);
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         if (useEventBus()) {
             EventBus.getDefault().unregister(this);
+        }
+        if (mCompositeSubscription != null && mCompositeSubscription.hasSubscriptions()) {
+            mCompositeSubscription.unsubscribe();
         }
     }
 

@@ -6,6 +6,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.model.ImageVideoWrapperEncoder;
+import com.hme.turman.CacheData;
 import com.hme.turman.R;
 import com.hme.turman.base.BaseFragment;
 
@@ -39,6 +41,10 @@ public class MineFragment extends BaseFragment {
     TextView title;
     @BindView(R.id.title_menu)
     TextView title_menu;
+    @BindView(R.id.no_login_text)
+    TextView no_login_text;
+    @BindView(R.id.login_layout)
+    LinearLayout login_layout;
 
     @Override
     protected void init(Bundle savedInstanceState) {
@@ -47,7 +53,18 @@ public class MineFragment extends BaseFragment {
         title_menu.setText("联系我们");
         title_menu.setOnClickListener(v->{toast("联系我们");});
 
-        user_detail_layout.setOnClickListener(v->{toast("到用户信息设置页面");});
+        //判断是否登录
+        if (CacheData.getDefault().isLogin()) {
+            no_login_text.setVisibility(View.GONE);
+            login_layout.setVisibility(View.VISIBLE);
+        }
+        user_detail_layout.setOnClickListener(v->{
+            if (CacheData.getDefault().isLogin()) {
+                toast("到用户信息设置页面");
+            } else {
+                toast("到登录页面");
+            }
+        });
     }
 
     @OnClick({R.id.my_message,R.id.my_comments,R.id.my_confirm,R.id.my_wallet,
