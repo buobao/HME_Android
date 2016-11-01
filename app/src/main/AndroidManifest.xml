@@ -38,9 +38,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
-        <activity android:name=".SecondActivity"/>
-        <activity android:name=".MapActivity"/>
+        <activity android:name=".ui.activity.LoginActivity"/>
+        <activity android:name=".ui.activity.PswLoginActivity"/>
 
         <!--高德定位-->
         <service android:name="com.amap.api.location.APSService"></service>

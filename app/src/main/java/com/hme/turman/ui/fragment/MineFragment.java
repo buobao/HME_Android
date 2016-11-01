@@ -1,5 +1,6 @@
 package com.hme.turman.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,6 +11,8 @@ import com.bumptech.glide.load.model.ImageVideoWrapperEncoder;
 import com.hme.turman.CacheData;
 import com.hme.turman.R;
 import com.hme.turman.base.BaseFragment;
+import com.hme.turman.ui.activity.LoginActivity;
+import com.hme.turman.utils.UiUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -62,7 +65,7 @@ public class MineFragment extends BaseFragment {
             if (CacheData.getDefault().isLogin()) {
                 toast("到用户信息设置页面");
             } else {
-                toast("到登录页面");
+                UiUtil.goLogin(getActivity());
             }
         });
     }
