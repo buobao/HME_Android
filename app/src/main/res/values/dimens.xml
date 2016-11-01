@@ -8,6 +8,7 @@
     <dimen name="line_height_thin">0.5dp</dimen>
     <dimen name="line_height_normal">1dp</dimen>
     <dimen name="line_height_bold">2dp</dimen>
+    <dimen name="line_height_huge">10dp</dimen>
 
     <!--字体-->
     <dimen name="text_12">12sp</dimen>

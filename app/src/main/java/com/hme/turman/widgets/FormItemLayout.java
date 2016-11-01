@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hme.turman.R;
@@ -19,7 +18,6 @@ import com.hme.turman.R;
 public class FormItemLayout extends LinearLayout {
     private ImageView left_image;
     private TextView title;
-    private LinearLayout click_layout;
     private TextView hint;
 
     private OnItemClickListener onItemClickListener;
@@ -40,10 +38,9 @@ public class FormItemLayout extends LinearLayout {
         View view = LayoutInflater.from(context).inflate(R.layout.wgt_form_item_layout, this, true);
         left_image = (ImageView) findViewById(R.id.left_image);
         title = (TextView) findViewById(R.id.title);
-        click_layout = (LinearLayout) findViewById(R.id.click_layout);
         hint = (TextView) findViewById(R.id.hint);
 
-        click_layout.setOnClickListener((v)->{
+        view.setOnClickListener((v)->{
             if (onItemClickListener != null) {
                 onItemClickListener.onClick(view);
             }
