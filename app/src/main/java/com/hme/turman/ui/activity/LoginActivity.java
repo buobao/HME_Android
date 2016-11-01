@@ -7,10 +7,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hme.turman.CacheData;
 import com.hme.turman.R;
 import com.hme.turman.base.BaseActivity;
+import com.hme.turman.ui.entity.event.CustomEvent;
 import com.hme.turman.utils.UiUtil;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.Currency;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -77,7 +82,18 @@ public class LoginActivity extends BaseActivity {
                 toast("登录应用");
                 //登录后台接口
                 //缓存用户数据
+                CacheData.getDefault().setIsLogin(true);
+                CacheData.getDefault().setUserName("活雷锋");
+                CacheData.getDefault().setUserPhone(input_phone.getText().toString());
+
+                CacheData.getDefault().setUserGender("female"); // 性别从服务器获取
                 //下载用户头像并获取头像文件路径
+
+                //登录成功刷新
+                CustomEvent event = new CustomEvent(CustomEvent.LOGIN_EVENT);
+                event.setActionDone(true);
+                EventBus.getDefault().post(event);
+                onBackPressed();
             }
         });
 

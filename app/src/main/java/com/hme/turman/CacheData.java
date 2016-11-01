@@ -20,6 +20,7 @@ public class CacheData {
                     cacheData.setIsLogin(SharedPreferencesUtil.getBoolean(Contents.IS_LOGIN));
                     if (cacheData.isLogin()) {
                         cacheData.setUserName(SharedPreferencesUtil.getString(Contents.USER_NAME));
+
                         cacheData.setUserPhone(SharedPreferencesUtil.getString(Contents.USER_PHONE));
                         cacheData.setUserPsw(SharedPreferencesUtil.getString(Contents.USER_PSW));
                         cacheData.setUserPortrait(SharedPreferencesUtil.getString(Contents.USER_PORTRAIT));
@@ -45,6 +46,10 @@ public class CacheData {
      * 登录人名称
      */
     private String user_name;
+    /**
+     * 登录人性别
+     */
+    private String user_gender;
     /**
      * 登录人电话
      */
@@ -192,5 +197,14 @@ public class CacheData {
 
     public void setUserCurrentAddress(String user_current_address) {
         this.user_current_address = user_current_address;
+    }
+
+    public String getUserGender() {
+        return user_gender;
+    }
+
+    public void setUserGender(String user_gender) {
+        this.user_gender = user_gender;
+        SharedPreferencesUtil.saveString(Contents.USER_GENDER,user_gender);
     }
 }

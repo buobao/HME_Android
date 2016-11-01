@@ -5,6 +5,15 @@ package com.hme.turman;
  */
 
 public class Contents {
+    //请求相关
+    //请求版本号参数名称
+    public static final String APP_VERSION = "app_version";
+
+    //性别
+    public static final String MALE = "male";
+    public static final String FEMALE = "female";
+
+
     //sp文件名称
     public final static String SP_NAME = "hme_contents_file";
 
@@ -12,6 +21,8 @@ public class Contents {
     public final static String IS_LOGIN = "is_login";
     //当前登录的用户名
     public final static String USER_NAME = "user_name";
+    //当前登录的用户性别
+    public final static String USER_GENDER = "user_gender";
     //当前登录用户的移动电话
     public final static String USER_PHONE = "user_phone";
     //当前登录用户密码

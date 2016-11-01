@@ -1,6 +1,7 @@
 package com.hme.turman.api;
 
 import com.hme.turman.BuildConfig;
+import com.hme.turman.Contents;
 import com.hme.turman.HmeApplication;
 import com.orhanobut.logger.Logger;
 
@@ -50,8 +51,9 @@ public class RetrofitHelper {
             public Response intercept(Chain chain) throws IOException {
                 Request request = chain.request();
 
+                Request.Builder requestBuild = request.newBuilder();
+                requestBuild.addHeader(Contents.APP_VERSION,BuildConfig.VERSION_NAME);
                 if (headers != null) {
-                    Request.Builder requestBuild = request.newBuilder();
                     for (String key:headers.keySet()) {
                         requestBuild.addHeader(key,headers.get(key));
                     }
