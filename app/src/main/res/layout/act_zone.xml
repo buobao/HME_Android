@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/title_layout"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_marginTop="40dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                app:civ_border_width="1dp"
+                app:civ_border_color="@color/app_color"
+                android:id="@+id/head_img"
+                android:src="@drawable/default_portrait" />
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="活雷锋"
+                    android:textSize="@dimen/text_14"
+                    android:textColor="@color/base_text_color" />
+                <ImageView
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/user_gender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_male" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/user_location"
+                android:layout_marginTop="10dp"
+                android:drawablePadding="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/sel_ic_location"
+                android:text="暂未设置用户地址"
+                android:textSize="@dimen/text_12"
+                android:textColor="@color/base_text_color" />
+            <View
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height_huge"
+                android:background="@color/base_line_color"/>
+
+            <com.hme.turman.widgets.SimpleItemLayout
+                android:id="@+id/user_home_address"
+                app:title="家庭地址"
+                app:content="未设置"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <com.hme.turman.widgets.SimpleItemLayout
+                android:id="@+id/user_active_address"
+                app:title="常出没地址"
+                app:content="暂无"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <com.hme.turman.widgets.SimpleItemLayout
+                android:id="@+id/user_age"
+                app:title="年龄层"
+                app:content="未设置"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <com.hme.turman.widgets.SimpleItemLayout
+                android:id="@+id/user_company"
+                app:title="公司"
+                app:content="公司未设置"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <com.hme.turman.widgets.SimpleItemLayout
+                android:id="@+id/user_affective_state"
+                app:title="情感状态"
+                app:content="保密"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height_huge"
+                android:background="@color/base_line_color"/>
+
+            <com.hme.turman.widgets.SimpleItemLayout
+                android:id="@+id/user_sign"
+                app:title="个性签名"
+                app:content="暂无签名"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <com.hme.turman.widgets.SimpleItemLayout
+                android:id="@+id/user_hobby"
+                app:title="兴趣爱好"
+                app:content="未设置"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height_huge"
+                android:background="@color/base_line_color"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:background="@android:color/white"
+                android:padding="5dp"
+                android:layout_height="200dp">
+
+                <TextView
+                    android:text="我的标签"
+                    android:textSize="@dimen/text_12"
+                    android:textColor="@android:color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+        
+    </ScrollView>
+</LinearLayout>

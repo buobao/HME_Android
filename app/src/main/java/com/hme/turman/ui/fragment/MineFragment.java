@@ -1,5 +1,6 @@
 package com.hme.turman.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,6 +12,7 @@ import com.hme.turman.Contents;
 import com.hme.turman.DemoEvent;
 import com.hme.turman.R;
 import com.hme.turman.base.BaseFragment;
+import com.hme.turman.ui.activity.ZoneActivity;
 import com.hme.turman.ui.entity.event.CustomEvent;
 import com.hme.turman.utils.UiUtil;
 
@@ -101,7 +103,9 @@ public class MineFragment extends BaseFragment {
                 toast("联系我们");
                 break;
             case R.id.user_detail_layout:
-                toast("到用户信息设置页面");
+//                toast("到用户信息设置页面");
+                Intent intent = new Intent(getActivity(), ZoneActivity.class);
+                getActivity().startActivity(intent);
                 break;
         }
     }

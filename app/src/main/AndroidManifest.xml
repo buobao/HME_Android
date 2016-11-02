@@ -40,6 +40,7 @@
         </activity>
         <activity android:name=".ui.activity.LoginActivity"/>
         <activity android:name=".ui.activity.PswLoginActivity"/>
+        <activity android:name=".ui.activity.ZoneActivity"/>
 
         <!--高德定位-->
         <service android:name="com.amap.api.location.APSService"></service>
