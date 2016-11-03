@@ -8,6 +8,9 @@
     <color name="light_text_color">#FF999999</color>
     <color name="deep_text_color">#FF333333</color>
     <color name="app_color">#FF2C97DE</color>
+    <color name="app_color_1">#aa2C97DE</color>
+    <color name="app_color_2">#662C97DE</color>
+    <color name="app_color_3">#112C97DE</color>
     <color name="app_color_light">#992C97DE</color>
     <color name="base_line_color">#FFEEEEEE</color>
 </resources>
