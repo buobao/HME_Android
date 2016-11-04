@@ -13,4 +13,8 @@
     <color name="app_color_3">#112C97DE</color>
     <color name="app_color_light">#992C97DE</color>
     <color name="base_line_color">#FFEEEEEE</color>
+
+
+    <color name="white">#FFFFFFFF</color>
+    <color name="list_item_bg">#FFEFEFEF</color>
 </resources>

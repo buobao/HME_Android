@@ -12,6 +12,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.ButterKnife;
 import rx.Subscriber;
+import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -43,7 +44,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract void init(Bundle savedInstanceState);
 
-    protected void addTask(Subscriber subscriber) {
+    protected void addTask(Subscription subscriber) {
         mCompositeSubscription.add(subscriber);
     }
 

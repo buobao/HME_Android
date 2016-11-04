@@ -12,6 +12,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import butterknife.ButterKnife;
 import rx.Subscriber;
+import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -56,7 +57,7 @@ public abstract class BaseFragment extends Fragment {
         super.onDestroy();
     }
     
-    protected void addTask(Subscriber subscriber) {
+    protected void addTask(Subscription subscriber) {
         mCompositeSubscription.add(subscriber);
     }
 

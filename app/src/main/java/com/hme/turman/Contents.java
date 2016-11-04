@@ -13,6 +13,8 @@ public class Contents {
     public static final String MALE = "male";
     public static final String FEMALE = "female";
 
+    //列表数据
+    public static final int PAGE_COUNT = 10;   //页宽
 
     //sp文件名称
     public final static String SP_NAME = "hme_contents_file";

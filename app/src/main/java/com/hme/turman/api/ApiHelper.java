@@ -27,7 +27,7 @@ public class ApiHelper {
 
     //test
     private static TestService testService;
-    public static TestService getTestService() {
+    private static TestService getTestService() {
         if (userAccountService == null) {
             testService = RetrofitHelper.createRetrofit(null,false,ApiContents.TEST_URL).create(TestService.class);
         }
