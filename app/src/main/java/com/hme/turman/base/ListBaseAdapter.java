@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.hme.turman.CacheData;
 import com.hme.turman.R;
 
 import java.util.ArrayList;
@@ -194,7 +195,7 @@ public class ListBaseAdapter<T> extends BaseAdapter {
                         mFooterView.setVisibility(View.VISIBLE);
                         progress.setVisibility(View.GONE);
                         text.setVisibility(View.VISIBLE);
-                        if (TDevice.hasInternet()) {
+                        if (CacheData.getDefault().isHasInternet()) {
                             text.setText("加载出错了");
                         } else {
                             text.setText("没有可用的网络");
@@ -253,16 +254,17 @@ public class ListBaseAdapter<T> extends BaseAdapter {
         text.setText(msg);
     }
 
-    protected void setContent(TweetTextView contentView, String content) {
-        contentView.setMovementMethod(MyLinkMovementMethod.a());
-        contentView.setFocusable(false);
-        contentView.setDispatchToParent(true);
-        contentView.setLongClickable(false);
-        Spanned span = Html.fromHtml(TweetTextView.modifyPath(content));
-        span = InputHelper.displayEmoji(contentView.getResources(),
-                span.toString());
-        contentView.setText(span);
-        MyURLSpan.parseLinkText(contentView, span);
+    protected void setContent(TextView contentView, String content) {
+//        contentView.setMovementMethod(MyLinkMovementMethod.a());
+//        contentView.setFocusable(false);
+//        contentView.setDispatchToParent(true);
+//        contentView.setLongClickable(false);
+//        Spanned span = Html.fromHtml(TweetTextView.modifyPath(content));
+//        span = InputHelper.displayEmoji(contentView.getResources(),
+//                span.toString());
+//        contentView.setText(span);
+//        MyURLSpan.parseLinkText(contentView, span);
+        contentView.setText(content);
     }
 
     protected void setText(TextView textView, String text, boolean needGone) {

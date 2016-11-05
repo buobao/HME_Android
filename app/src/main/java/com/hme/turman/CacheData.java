@@ -30,6 +30,8 @@ public class CacheData {
 //                        cacheData.setUserCurrentLocation();
                         cacheData.setUserWorkAddress(SharedPreferencesUtil.getString(Contents.USER_WORK_ADDRESS));
                         cacheData.setUserWorkLocation(new LatLng(Double.parseDouble(SharedPreferencesUtil.getString(Contents.USER_WORK_LAT)),Double.parseDouble(SharedPreferencesUtil.getString(Contents.USER_WORK_LNG))));
+
+                        //这里需要检测网络
                     }
                 }
             }
@@ -37,6 +39,11 @@ public class CacheData {
 
         return cacheData;
     }
+
+    /**
+     * 当前是否开启网络
+     */
+    private boolean hasInternet;
 
     /**
      * 是否登录
@@ -206,5 +213,13 @@ public class CacheData {
     public void setUserGender(String user_gender) {
         this.user_gender = user_gender;
         SharedPreferencesUtil.saveString(Contents.USER_GENDER,user_gender);
+    }
+
+    public boolean isHasInternet() {
+        return hasInternet;
+    }
+
+    public void setHasInternet(boolean hasInternet) {
+        this.hasInternet = hasInternet;
     }
 }
