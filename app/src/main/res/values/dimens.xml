@@ -10,6 +10,7 @@
     <dimen name="line_height_bold">2dp</dimen>
     <dimen name="line_height_huge">10dp</dimen>
 
+
     <!--字体-->
     <dimen name="text_10">10sp</dimen>
     <dimen name="text_12">12sp</dimen>

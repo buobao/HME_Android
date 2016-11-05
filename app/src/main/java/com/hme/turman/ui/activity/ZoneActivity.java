@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.hme.turman.CacheData;
 import com.hme.turman.R;
 import com.hme.turman.base.BaseActivity;
+import com.hme.turman.utils.UiUtil;
 import com.hme.turman.widgets.SimpleItemLayout;
 
 import butterknife.BindView;
@@ -63,7 +64,7 @@ public class ZoneActivity extends BaseActivity {
 
         user_name.setText(CacheData.getDefault().getUserName());
         String address = CacheData.getDefault().getUserAddress();
-        if (address != null) {
+        if (UiUtil.isNotEmpty(address)) {
             user_location.setText(address);
         }
 

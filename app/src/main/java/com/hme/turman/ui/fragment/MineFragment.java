@@ -12,6 +12,7 @@ import com.hme.turman.Contents;
 import com.hme.turman.DemoEvent;
 import com.hme.turman.R;
 import com.hme.turman.base.BaseFragment;
+import com.hme.turman.ui.activity.SettingActivity;
 import com.hme.turman.ui.activity.ZoneActivity;
 import com.hme.turman.ui.entity.event.CustomEvent;
 import com.hme.turman.utils.UiUtil;
@@ -77,6 +78,7 @@ public class MineFragment extends BaseFragment {
             UiUtil.goLogin(getActivity());
             return;
         }
+        Intent intent = new Intent();
         switch (v.getId()) {
             case R.id.my_message:
                 toast("我的动态");
@@ -97,17 +99,16 @@ public class MineFragment extends BaseFragment {
                 toast("我的求助记录");
                 break;
             case R.id.my_setting:
-                toast("应用设置");
+                intent.setClass(getActivity(), SettingActivity.class);
                 break;
             case R.id.title_menu:
                 toast("联系我们");
                 break;
             case R.id.user_detail_layout:
-//                toast("到用户信息设置页面");
-                Intent intent = new Intent(getActivity(), ZoneActivity.class);
-                getActivity().startActivity(intent);
+                intent.setClass(getActivity(), ZoneActivity.class);
                 break;
         }
+        getActivity().startActivity(intent);
     }
 
     @Override

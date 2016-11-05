@@ -35,4 +35,16 @@ public class UiUtil {
         }
         return false;
     }
+
+    /**
+     * 字符创是否为空
+     * @param str
+     * @return
+     */
+    public static boolean isNotEmpty(String str) {
+        if (str != null && !str.equals("")) {
+            return true;
+        }
+         return false;
+    }
 }

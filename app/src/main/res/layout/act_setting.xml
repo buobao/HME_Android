@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/base_line_color">
+
+    <include layout="@layout/title_layout"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_height_huge"
+        android:background="@color/base_line_color"/>
+
+    <com.hme.turman.widgets.FormItemLayout
+        android:id="@+id/set_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="家庭地址设置"
+        app:left_img="@drawable/ic_home"
+        android:background="@android:color/white"
+        />
+
+    <com.hme.turman.widgets.FormItemLayout
+        android:id="@+id/set_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="更换电话号码"
+        app:left_img="@drawable/ic_exchange_phone"
+        android:background="@android:color/white"
+        />
+
+    <com.hme.turman.widgets.FormItemLayout
+        android:id="@+id/set_psw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="设置密码"
+        app:left_img="@drawable/ic_psw"
+        android:background="@android:color/white"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_height_huge"
+        android:background="@color/base_line_color"/>
+
+    <com.hme.turman.widgets.FormItemLayout
+        android:id="@+id/about_us"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="关于我们"
+        app:left_img="@drawable/ic_about_us"
+        android:background="@android:color/white"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_height_huge"
+        android:background="@color/base_line_color"/>
+
+    <TextView
+        android:id="@+id/logout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textColor="@color/app_color"
+        android:textSize="@dimen/text_16"
+        android:gravity="center"
+        android:text="退出"
+        android:background="@android:color/white"
+        android:layout_marginTop="60dp" />
+
+</LinearLayout>
