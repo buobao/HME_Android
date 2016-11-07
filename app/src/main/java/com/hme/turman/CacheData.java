@@ -41,6 +41,14 @@ public class CacheData {
     }
 
     /**
+     * 获取融云token
+     * @return
+     */
+    private String getRongToken(){
+        return null;
+    }
+
+    /**
      * 当前是否开启网络
      */
     private boolean hasInternet;

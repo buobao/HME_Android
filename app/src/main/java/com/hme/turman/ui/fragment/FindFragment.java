@@ -9,6 +9,10 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.amap.api.maps.AMap;
+import com.amap.api.maps.LocationSource;
+import com.amap.api.maps.MapView;
+import com.amap.api.maps.UiSettings;
 import com.hme.turman.R;
 import com.hme.turman.api.ApiHelper;
 import com.hme.turman.api.bean.HelpEventBean;
@@ -44,7 +48,12 @@ public class FindFragment extends BaseFragment {
     @BindView(R.id.listview)
     ListView listView;
 
-    private int currentType;
+    @BindView(R.id.map)
+    MapView mapView;
+    private AMap map;
+    private UiSettings mUiSettings;
+
+    private int currentType=LIST_VIEW;
     private int mState;
 
     private int currentPage; //当前加载数据的页码
@@ -57,7 +66,16 @@ public class FindFragment extends BaseFragment {
         title.setText("发现");
         title_menu.setVisibility(View.VISIBLE);
         title_menu.setText("地图");
-        currentType = LIST_VIEW;
+        title_menu.setOnClickListener(v->{
+            currentType = currentType == LIST_VIEW ? MAP_VIEW:LIST_VIEW;
+            if (currentType == MAP_VIEW) {
+                currentType = MAP_VIEW;
+                swipe_refresh_layout.setVisibility(View.GONE);
+            } else {
+                currentType = LIST_VIEW;
+                swipe_refresh_layout.setVisibility(View.VISIBLE);
+            }
+        });
         currentPage = 1;
         totalCount = -1;
         mState = STATE_UNREFRESH;
@@ -102,11 +120,62 @@ public class FindFragment extends BaseFragment {
         });
         //初始化加载数据
         loadData(true);
+
+        initMap(savedInstanceState);
     }
 
     @Override
     protected int getLayoutId() {
         return R.layout.frg_find;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    /**
+     * 地图初始化
+     * @param savedInstanceState
+     */
+    private void initMap(Bundle savedInstanceState){
+        //if (map == null) {
+            mapView.onCreate(savedInstanceState);
+
+            map = mapView.getMap();
+            map.setMapType(AMap.MAP_TYPE_NORMAL);
+            map.setMyLocationEnabled(true);
+            map.setLocationSource(new LocationSource() {
+                @Override
+                public void activate(OnLocationChangedListener onLocationChangedListener) {
+
+                }
+
+                @Override
+                public void deactivate() {
+
+                }
+            });
+            mUiSettings = map.getUiSettings();
+            mUiSettings.setZoomControlsEnabled(false);
+            mUiSettings.setCompassEnabled(true);
+            mUiSettings.setScaleControlsEnabled(true);
+            mUiSettings.setMyLocationButtonEnabled(true);
+       // }
+
     }
 
     /** 设置顶部正在加载的状态 */

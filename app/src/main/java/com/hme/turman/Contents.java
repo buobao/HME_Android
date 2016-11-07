@@ -5,6 +5,11 @@ package com.hme.turman;
  */
 
 public class Contents {
+
+    //融云相关参数
+    public static final String RONG_SECRET = "S7MJgtTTiNG";
+    public static final String RONG_KEY = "8luwapkvuavul";
+
     //请求相关
     //请求版本号参数名称
     public static final String APP_VERSION = "app_version";

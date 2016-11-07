@@ -61,7 +61,6 @@ dependencies {
     compile 'com.android.support:support-v4:24.2.1'
     //cardview
     compile 'com.android.support:cardview-v7:24.2.1'
-
     testCompile 'junit:junit:4.12'
     //注解框架
     compile 'com.jakewharton:butterknife:8.1.0'
@@ -90,11 +89,11 @@ dependencies {
     compile files('libs/AMap_Location_V3.0.0_20160922.jar')
     compile files('libs/AMap_Search_V3.5.0_20160927.jar')
     compile files('libs/Volley.jar')
-
     //主页底部导航栏
     compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.0@aar'
     //圆角imageview
     compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile project(':IMKit')
 }
 
 

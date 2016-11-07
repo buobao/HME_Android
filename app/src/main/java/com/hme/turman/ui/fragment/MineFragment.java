@@ -100,15 +100,16 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.my_setting:
                 intent.setClass(getActivity(), SettingActivity.class);
+                getActivity().startActivity(intent);
                 break;
             case R.id.title_menu:
                 toast("联系我们");
                 break;
             case R.id.user_detail_layout:
                 intent.setClass(getActivity(), ZoneActivity.class);
+                getActivity().startActivity(intent);
                 break;
         }
-        getActivity().startActivity(intent);
     }
 
     @Override

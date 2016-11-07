@@ -9,6 +9,7 @@ import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 
 import cn.jpush.android.api.JPushInterface;
+import io.rong.imkit.RongIM;
 
 /**
  * Created by diaoqf on 2016/10/28.
@@ -40,6 +41,8 @@ public class HmeApplication extends Application {
 
         //开启高德定位
         LocationUtil.init(this);
+        //融云初始化
+        RongIM.init(this);
     }
 }
 
