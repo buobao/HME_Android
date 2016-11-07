@@ -20,7 +20,7 @@ public class CacheData {
                     cacheData.setIsLogin(SharedPreferencesUtil.getBoolean(Contents.IS_LOGIN));
                     if (cacheData.isLogin()) {
                         cacheData.setUserName(SharedPreferencesUtil.getString(Contents.USER_NAME));
-
+                        cacheData.setRongToken(SharedPreferencesUtil.getString(Contents.RONG_TOKEN));
                         cacheData.setUserPhone(SharedPreferencesUtil.getString(Contents.USER_PHONE));
                         cacheData.setUserPsw(SharedPreferencesUtil.getString(Contents.USER_PSW));
                         cacheData.setUserPortrait(SharedPreferencesUtil.getString(Contents.USER_PORTRAIT));
@@ -40,13 +40,11 @@ public class CacheData {
         return cacheData;
     }
 
+
     /**
-     * 获取融云token
-     * @return
+     * 融云token
      */
-    private String getRongToken(){
-        return null;
-    }
+    private String rong_token;
 
     /**
      * 当前是否开启网络
@@ -229,5 +227,14 @@ public class CacheData {
 
     public void setHasInternet(boolean hasInternet) {
         this.hasInternet = hasInternet;
+    }
+
+    public String getRongToken() {
+        return rong_token;
+    }
+
+    public void setRongToken(String rong_token) {
+        this.rong_token = rong_token;
+        SharedPreferencesUtil.saveString(Contents.RONG_TOKEN,rong_token);
     }
 }

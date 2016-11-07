@@ -9,6 +9,7 @@ public class Contents {
     //融云相关参数
     public static final String RONG_SECRET = "S7MJgtTTiNG";
     public static final String RONG_KEY = "8luwapkvuavul";
+    public static final String RONG_TOKEN = "rong_token";
 
     //请求相关
     //请求版本号参数名称

@@ -1,8 +1,6 @@
 package com.hme.turman.base;
 
 import android.content.Context;
-import android.text.Html;
-import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;

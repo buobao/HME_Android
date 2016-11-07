@@ -1,8 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/base_line_color">
 
     <include layout="@layout/title_layout"/>
+
+    <com.hme.turman.widgets.FormItemLayout
+        android:id="@+id/my_conversation"
+        app:title="会话"
+        app:left_img="@drawable/ic_conversation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white" />
+
+    <com.hme.turman.widgets.FormItemLayout
+        android:id="@+id/my_broadcast"
+        app:title="广播"
+        android:layout_marginTop="@dimen/line_height_huge"
+        app:left_img="@drawable/ic_broadcast"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <com.hme.turman.widgets.FormItemLayout
+        android:id="@+id/my_active"
+        app:title="活动"
+        app:left_img="@drawable/ic_active"
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="wrap_content"/>
+
+    <com.hme.turman.widgets.FormItemLayout
+        android:id="@+id/my_notice"
+        app:title="通知"
+        app:left_img="@drawable/ic_notice"
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

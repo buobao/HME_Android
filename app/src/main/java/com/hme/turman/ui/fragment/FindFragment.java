@@ -121,7 +121,7 @@ public class FindFragment extends BaseFragment {
         //初始化加载数据
         loadData(true);
 
-        initMap(savedInstanceState);
+//        initMap(savedInstanceState);
     }
 
     @Override
