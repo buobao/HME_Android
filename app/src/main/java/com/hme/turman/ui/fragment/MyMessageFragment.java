@@ -35,12 +35,15 @@ public class MyMessageFragment extends BaseFragment {
     protected void init(Bundle savedInstanceState) {
         title.setText("消息");
         my_conversation.setOnItemClickListener(v->{
-//            toast("聊天会话列表界面");
             if (RongIM.getInstance() != null) {
                 RongIM.getInstance().startConversationList(getActivity());
             }
-//                RongIM.getInstance().startPrivateChat(getActivity(), "26594", "title");
         });
+
+        my_broadcast.setOnItemClickListener(v->{
+
+        });
+
     }
 
     @Override
