@@ -69,7 +69,7 @@ public class RetrofitUtil {
                                     //登录过期处理
                                     return Observable.empty();
                                 }
-                                return null;
+                                return Observable.error(new UnknownError());
                             }
                         });
             }

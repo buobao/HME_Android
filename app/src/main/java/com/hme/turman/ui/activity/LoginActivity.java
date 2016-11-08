@@ -83,8 +83,10 @@ public class LoginActivity extends BaseActivity {
                 //登录后台接口
                 //缓存用户数据
                 CacheData.getDefault().setIsLogin(true);
-                CacheData.getDefault().setUserName("活雷锋");
+                CacheData.getDefault().setUserNickName("活雷锋");
+                CacheData.getDefault().setUserName(input_phone.getText().toString());
                 CacheData.getDefault().setUserPhone(input_phone.getText().toString());
+                CacheData.getDefault().setUserPortrait("http://imgsrc.baidu.com/forum/pic/item/d52a2834349b033bb2a1a57615ce36d3d539bd75.jpg");
 
                 CacheData.getDefault().setUserGender("female"); // 性别从服务器获取
                 //下载用户头像并获取头像文件路径

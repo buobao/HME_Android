@@ -2,6 +2,7 @@ package com.hme.turman;
 
 import com.amap.api.maps.model.LatLng;
 import com.hme.turman.utils.SharedPreferencesUtil;
+import com.hme.turman.utils.UiUtil;
 
 /**
  * Created by diaoqf on 2016/10/28.
@@ -20,18 +21,31 @@ public class CacheData {
                     cacheData.setIsLogin(SharedPreferencesUtil.getBoolean(Contents.IS_LOGIN));
                     if (cacheData.isLogin()) {
                         cacheData.setUserName(SharedPreferencesUtil.getString(Contents.USER_NAME));
+                        cacheData.setUserNickName(SharedPreferencesUtil.getString(Contents.USER_NICK_NAME));
                         cacheData.setRongToken(SharedPreferencesUtil.getString(Contents.RONG_TOKEN));
                         cacheData.setUserPhone(SharedPreferencesUtil.getString(Contents.USER_PHONE));
                         cacheData.setUserPsw(SharedPreferencesUtil.getString(Contents.USER_PSW));
                         cacheData.setUserPortrait(SharedPreferencesUtil.getString(Contents.USER_PORTRAIT));
                         cacheData.setUserToken(SharedPreferencesUtil.getString(Contents.USER_TOKEN));
                         cacheData.setUserAddress(SharedPreferencesUtil.getString(Contents.USER_ADDRESS));
-                        cacheData.setUserLocation(new LatLng(Double.parseDouble(SharedPreferencesUtil.getString(Contents.USER_LAT)), Double.parseDouble(SharedPreferencesUtil.getString(Contents.USER_LNG))));
+                        if (UiUtil.isNotEmpty(SharedPreferencesUtil.getString(Contents.USER_LAT))
+                                && UiUtil.isNotEmpty(SharedPreferencesUtil.getString(Contents.USER_LNG))) {
+                            cacheData.setUserLocation(new LatLng(Double.parseDouble(SharedPreferencesUtil.getString(Contents.USER_LAT)), Double.parseDouble(SharedPreferencesUtil.getString(Contents.USER_LNG))));
+                        }
 //                        cacheData.setUserCurrentLocation();
                         cacheData.setUserWorkAddress(SharedPreferencesUtil.getString(Contents.USER_WORK_ADDRESS));
-                        cacheData.setUserWorkLocation(new LatLng(Double.parseDouble(SharedPreferencesUtil.getString(Contents.USER_WORK_LAT)),Double.parseDouble(SharedPreferencesUtil.getString(Contents.USER_WORK_LNG))));
+                        if (UiUtil.isNotEmpty(SharedPreferencesUtil.getString(Contents.USER_WORK_LAT))
+                                && UiUtil.isNotEmpty(SharedPreferencesUtil.getString(Contents.USER_WORK_LNG))) {
+                            cacheData.setUserWorkLocation(new LatLng(Double.parseDouble(SharedPreferencesUtil.getString(Contents.USER_WORK_LAT)), Double.parseDouble(SharedPreferencesUtil.getString(Contents.USER_WORK_LNG))));
+                        }
 
                         //这里需要检测网络
+
+
+                        //测试数据
+                        cacheData.setUserName("15618605130");
+                        cacheData.setUserPortrait("http://imgsrc.baidu.com/forum/pic/item/d52a2834349b033bb2a1a57615ce36d3d539bd75.jpg");
+                        cacheData.setUserNickName("buobao");
                     }
                 }
             }
@@ -56,9 +70,14 @@ public class CacheData {
      */
     private boolean is_login;
     /**
-     * 登录人名称
+     * 登录人名称(电话号码)
      */
     private String user_name;
+    /**
+     * 登录人昵称
+     */
+    private String user_nick_name;
+
     /**
      * 登录人性别
      */
@@ -236,5 +255,14 @@ public class CacheData {
     public void setRongToken(String rong_token) {
         this.rong_token = rong_token;
         SharedPreferencesUtil.saveString(Contents.RONG_TOKEN,rong_token);
+    }
+
+    public String getUserNickName() {
+        return user_nick_name;
+    }
+
+    public void setUserNickName(String user_nick_name) {
+        this.user_nick_name = user_nick_name;
+        SharedPreferencesUtil.saveString(Contents.USER_NICK_NAME, user_nick_name);
     }
 }

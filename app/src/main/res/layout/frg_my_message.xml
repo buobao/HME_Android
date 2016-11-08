@@ -10,6 +10,7 @@
 
     <com.hme.turman.widgets.FormItemLayout
         android:id="@+id/my_conversation"
+        android:layout_marginTop="@dimen/line_height_huge"
         app:title="会话"
         app:left_img="@drawable/ic_conversation"
         android:layout_width="match_parent"

@@ -2,6 +2,7 @@ package com.hme.turman.ui.activity;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -10,23 +11,40 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
+import com.hme.turman.CacheData;
 import com.hme.turman.R;
+import com.hme.turman.api.ApiHelper;
+import com.hme.turman.api.bean.rong.RongUserStatusBean;
 import com.hme.turman.base.BaseActivity;
 import com.hme.turman.ui.entity.TabEntity;
+import com.hme.turman.ui.entity.event.CustomEvent;
 import com.hme.turman.ui.fragment.FindFragment;
 import com.hme.turman.ui.fragment.FlowMeFragment;
 import com.hme.turman.ui.fragment.HelpMeFragment;
 import com.hme.turman.ui.fragment.MineFragment;
 import com.hme.turman.ui.fragment.MyMessageFragment;
+import com.hme.turman.utils.RongUtil;
+import com.hme.turman.utils.UiUtil;
+import com.orhanobut.logger.Logger;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
+import io.rong.imkit.RongIM;
+import io.rong.imkit.common.RongConst;
+import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.UserInfo;
+import rx.functions.Action1;
 
 /**
  * Created by diaoqf on 2016/10/31.
@@ -64,6 +82,8 @@ public class MainActivity extends BaseActivity {
         initFragments();
         //tab init
         initBottomTab();
+        //初始化融云
+        initRong();
         //permission require
         requirePermission();
     }
@@ -146,6 +166,23 @@ public class MainActivity extends BaseActivity {
     }
 
     /**
+     * 初始化融云
+     */
+    private void initRong() {
+        if (CacheData.getDefault().isLogin()) {
+            //连接融云服务器
+            RongUtil.connectServer();
+
+            RongIM.setUserInfoProvider(new RongIM.UserInfoProvider() {
+                @Override
+                public UserInfo getUserInfo(String userId) {
+                    return new UserInfo("15618605131","kiki", Uri.parse(CacheData.getDefault().getUserPortrait()));
+                }
+            }, true);
+        }
+    }
+
+    /**
      * 权限获取
      */
     private void requirePermission() {
@@ -175,6 +212,47 @@ public class MainActivity extends BaseActivity {
             case 102:break;
             case 103:break;
             case 104:break;
+        }
+    }
+
+    @Override
+    protected boolean useEventBus() {
+        return true;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(CustomEvent event) {
+        if (event.getType().equals(CustomEvent.LOGIN_EVENT)) {
+            if (event.isActionDone()) {
+                //获取融云token
+                addTask(ApiHelper.getRongToken(new HashMap(){
+                    {
+                        put("userId",CacheData.getDefault().getUserName());
+                        put("name",CacheData.getDefault().getUserNickName());
+                        put("portraitUri",CacheData.getDefault().getUserPortrait());
+                    }
+                }).subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
+                        if (UiUtil.isNotEmpty(s)) {
+                            Logger.i("userRongToken:"+s);
+                            CacheData.getDefault().setRongToken(s);
+                            //初始化融云
+                            initRong();
+                        } else {
+                            toast(" 未能成功获取融云token");
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        throwable.printStackTrace();
+                        toast(throwable.getMessage());
+                    }
+                }));
+            } else {
+                //登出
+            }
         }
     }
 }

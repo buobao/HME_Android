@@ -58,6 +58,7 @@ public class RetrofitHelper {
                         requestBuild.addHeader(key,headers.get(key));
                     }
                 }
+                request = requestBuild.build();
 
                 if (BuildConfig.DEBUG) {
                     long t1 = System.nanoTime();

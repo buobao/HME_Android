@@ -8,6 +8,8 @@ import com.hme.turman.base.BaseFragment;
 import com.hme.turman.widgets.FormItemLayout;
 
 import butterknife.BindView;
+import io.rong.imkit.RongIM;
+import io.rong.imlib.model.Conversation;
 
 /**
  * Created by diaoqf on 2016/10/31.
@@ -33,7 +35,11 @@ public class MyMessageFragment extends BaseFragment {
     protected void init(Bundle savedInstanceState) {
         title.setText("消息");
         my_conversation.setOnItemClickListener(v->{
-            toast("聊天会话列表界面");
+//            toast("聊天会话列表界面");
+            if (RongIM.getInstance() != null) {
+                RongIM.getInstance().startConversationList(getActivity());
+            }
+//                RongIM.getInstance().startPrivateChat(getActivity(), "26594", "title");
         });
     }
 

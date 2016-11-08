@@ -29,6 +29,8 @@ public class Contents {
     public final static String IS_LOGIN = "is_login";
     //当前登录的用户名
     public final static String USER_NAME = "user_name";
+    //当前登录用户昵称
+    public final static String USER_NICK_NAME = "user_nick_name";
     //当前登录的用户性别
     public final static String USER_GENDER = "user_gender";
     //当前登录用户的移动电话
