@@ -118,9 +118,7 @@
             android:layout_height="@dimen/line_height_thin"
             android:background="@color/base_line_color" />
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
+        <RelativeLayout
             android:paddingLeft="@dimen/base_margin_left"
             android:paddingRight="@dimen/base_margin_right"
             android:layout_width="match_parent"
@@ -134,10 +132,21 @@
                 android:drawablePadding="5dp"
                 android:text="这里显示发布消息的地址"
                 android:lines="1"
+                android:maxLength="25"
                 android:textColor="@color/base_text_color"
+                android:layout_centerVertical="true"
                 android:textSize="@dimen/text_12" />
 
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/item_conversation_chat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/base_margin_right"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_talk" />
+
+        </RelativeLayout>
 
 
     </LinearLayout>

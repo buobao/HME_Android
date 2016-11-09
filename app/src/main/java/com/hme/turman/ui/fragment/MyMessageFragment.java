@@ -41,7 +41,7 @@ public class MyMessageFragment extends BaseFragment {
         });
 
         my_broadcast.setOnItemClickListener(v->{
-
+            toast("广播");
         });
 
     }

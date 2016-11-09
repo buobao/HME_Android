@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.rong.imkit.RongIM;
+import io.rong.imlib.model.Conversation;
 
 /**
  * Created by lebro on 2016/11/5.
@@ -44,6 +46,11 @@ public class HelpEventAdapter extends ListBaseAdapter<HelpEventBean>  {
         vh.item_time.setText(getItem(position).getPushDate());
         vh.item_content.setText(getItem(position).getContent());
         vh.item_location_tv.setText(getItem(position).getAddress());
+        vh.item_conversation_chat.setOnClickListener(v->{
+            if (RongIM.getInstance() != null) {
+                RongIM.getInstance().startConversation(parent.getContext(), Conversation.ConversationType.CHATROOM, "9527", "这个是聊天室的标题要很长很长很长很长很长很长");
+            }
+        });
 
         for (int i=0;i<getItem(position).getContentImage().size();i++) {
             Glide.with(parent.getContext())
@@ -63,6 +70,7 @@ public class HelpEventAdapter extends ListBaseAdapter<HelpEventBean>  {
         private TextView item_time;
         private TextView item_content;
         private TextView item_location_tv;
+        private ImageView item_conversation_chat;
 
         private List<ImageView> content_images;
 
@@ -72,6 +80,7 @@ public class HelpEventAdapter extends ListBaseAdapter<HelpEventBean>  {
             item_time = (TextView) view.findViewById(R.id.item_time);
             item_content = (TextView) view.findViewById(R.id.item_content);
             item_location_tv = (TextView) view.findViewById(R.id.item_location_tv);
+            item_conversation_chat = (ImageView) view.findViewById(R.id.item_conversation_chat);
             content_images = new ArrayList() {
                 {
                     add(view.findViewById(R.id.item_content_image_1));

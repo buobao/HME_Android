@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HME_Android</string>
+    <string name="app_name">帮帮我</string>
 
     <!--列表相关-->
     <string name="loading" >加载中...</string>

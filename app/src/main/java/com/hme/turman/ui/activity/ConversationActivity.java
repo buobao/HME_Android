@@ -62,7 +62,7 @@ public class ConversationActivity extends BaseActivity {
     protected void init(Bundle savedInstanceState) {
         mHandler  = new MyHandler(this);
         mTargetId = getIntent().getData().getQueryParameter("targetId");
-
+        mConversationType = Conversation.ConversationType.valueOf(getIntent().getData().getPath().substring(getIntent().getData().getPath().lastIndexOf("/")+1).toUpperCase());
         title.setText(getIntent().getData().getQueryParameter("title"));
         back.setVisibility(View.VISIBLE);
         back.setOnClickListener(v->{
@@ -70,14 +70,16 @@ public class ConversationActivity extends BaseActivity {
             manager.hideSoftInputFromWindow(back.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
             onBackPressed();});
 
-        addTask(ApiHelper.getUserOnlineStatus(mTargetId).subscribe(result->{
-            Drawable drawable= getResources().getDrawable(R.drawable.sel_ic_offline);
-            if (result != null && result.getStatus().equals("1")) {
-                drawable= getResources().getDrawable(R.drawable.sel_ic_online);
-            }
-            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-            title.setCompoundDrawables(null,null,drawable,null);
-        },throwable -> throwable.printStackTrace()));
+        if (mConversationType == Conversation.ConversationType.PRIVATE) {
+            addTask(ApiHelper.getUserOnlineStatus(mTargetId).subscribe(result -> {
+                Drawable drawable = getResources().getDrawable(R.drawable.sel_ic_offline);
+                if (result != null && result.getStatus().equals("1")) {
+                    drawable = getResources().getDrawable(R.drawable.sel_ic_online);
+                }
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                title.setCompoundDrawables(null, null, drawable, null);
+            }, throwable -> throwable.printStackTrace()));
+        }
 
 
         //输入状态监听
