@@ -66,6 +66,9 @@
                     android:scheme="rong" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.activity.LocationMapActivity"
+            android:screenOrientation="portrait" />
 
         <!--高德定位-->
         <service android:name="com.amap.api.location.APSService"></service>

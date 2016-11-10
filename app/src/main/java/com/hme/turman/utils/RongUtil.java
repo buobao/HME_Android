@@ -1,8 +1,11 @@
 package com.hme.turman.utils;
 
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 
 import com.hme.turman.CacheData;
+import com.hme.turman.ui.activity.LocationMapActivity;
 import com.orhanobut.logger.Logger;
 
 import io.rong.imkit.RongIM;
@@ -62,6 +65,17 @@ public class RongUtil {
 
 
                 return true;
+            }
+        });
+
+        //设置打开地图页
+        RongIM.setLocationProvider(new RongIM.LocationProvider() {
+            @Override
+            public void onStartLocation(Context context, LocationCallback locationCallback) {
+
+                Intent intent = new Intent(context, LocationMapActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
             }
         });
     }
