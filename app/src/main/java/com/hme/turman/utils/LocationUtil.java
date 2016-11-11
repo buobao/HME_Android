@@ -35,7 +35,7 @@ public class LocationUtil {
         //高精度模式 (低功耗模式:Battery_Saving, Device_Sensors)
         mapLocationClientOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
         //设置定位间隔
-        mapLocationClientOption.setInterval(10000);
+        mapLocationClientOption.setInterval(60000);
         //设置定位是否返回地址信息
         mapLocationClientOption.setNeedAddress(true);
         //设置超时时间
@@ -43,9 +43,17 @@ public class LocationUtil {
 
         mapLocationClient.setLocationOption(mapLocationClientOption);
 
+    }
+
+    public static void start() {
         //开始定位
         mapLocationClient.startLocation();
     }
+
+    public static void stop() {
+        mapLocationClient.stopLocation();
+    }
+
 
 }
 

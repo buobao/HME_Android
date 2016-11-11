@@ -39,7 +39,7 @@ public class HmeApplication extends Application {
         JPushInterface.init(this);
         JPushInterface.setLatestNotificationNumber(this,4);  //最多显示4条通知栏信息
 
-        //开启高德定位
+        //初始化高德定位
         LocationUtil.init(this);
         //融云初始化
         RongIM.init(this);
