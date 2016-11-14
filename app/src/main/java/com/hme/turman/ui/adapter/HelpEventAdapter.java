@@ -6,9 +6,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.hme.turman.CacheData;
 import com.hme.turman.R;
 import com.hme.turman.api.bean.HelpEventBean;
 import com.hme.turman.base.ListBaseAdapter;
+import com.hme.turman.utils.UiUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +49,12 @@ public class HelpEventAdapter extends ListBaseAdapter<HelpEventBean>  {
         vh.item_content.setText(getItem(position).getContent());
         vh.item_location_tv.setText(getItem(position).getAddress());
         vh.item_conversation_chat.setOnClickListener(v->{
-            if (RongIM.getInstance() != null) {
-                RongIM.getInstance().startConversation(parent.getContext(), Conversation.ConversationType.CHATROOM, "9527", "这个是聊天室的标题要很长很长很长很长很长很长");
+            if (CacheData.getDefault().isLogin()) {
+                if (RongIM.getInstance() != null) {
+                    RongIM.getInstance().startConversation(parent.getContext(), Conversation.ConversationType.CHATROOM, "9527", "这个是聊天室的标题要很长很长很长很长很长很长");
+                }
+            } else {
+                UiUtil.goLogin(parent.getContext());
             }
         });
 

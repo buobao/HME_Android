@@ -1,6 +1,6 @@
 package com.hme.turman.utils;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 
 import com.hme.turman.ui.activity.LoginActivity;
@@ -16,11 +16,11 @@ public class UiUtil {
 
     /**
      * 登录页跳转
-     * @param activity
+     * @param context
      */
-    public static void goLogin(Activity activity) {
-        Intent intent = new Intent(activity, LoginActivity.class);
-        activity.startActivity(intent);
+    public static void goLogin(Context context) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        context.startActivity(intent);
     }
 
     /**
