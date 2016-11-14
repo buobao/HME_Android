@@ -1,6 +1,6 @@
 package com.hme.turman.ui.activity;
 
-import android.media.Image;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,6 +10,7 @@ import com.hme.turman.CacheData;
 import com.hme.turman.R;
 import com.hme.turman.base.BaseActivity;
 import com.hme.turman.ui.entity.event.CustomEvent;
+import com.hme.turman.widgets.FormItemLayout;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -25,6 +26,8 @@ public class SettingActivity extends BaseActivity {
     TextView title;
     @BindView(R.id.back)
     ImageView back;
+    @BindView(R.id.set_location)
+    FormItemLayout set_location;
 
     @BindView(R.id.logout)
     TextView logout;
@@ -51,6 +54,11 @@ public class SettingActivity extends BaseActivity {
             event.setActionDone(false);
             EventBus.getDefault().post(event);
             onBackPressed();
+        });
+
+        set_location.setOnItemClickListener(v->{
+            Intent intent = new Intent(SettingActivity.this, LocationMapActivity.class);
+            startActivity(intent);
         });
     }
 

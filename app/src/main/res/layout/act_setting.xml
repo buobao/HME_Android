@@ -16,10 +16,9 @@
         android:id="@+id/set_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:title="家庭地址设置"
+        app:title="常用地址设置"
         app:left_img="@drawable/ic_home"
-        android:background="@android:color/white"
-        />
+        android:background="@android:color/white" />
 
     <com.hme.turman.widgets.FormItemLayout
         android:id="@+id/set_phone"

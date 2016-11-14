@@ -23,6 +23,7 @@
             android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxLines="1"
             android:textColor="@color/base_text_color"
             android:textSize="@dimen/text_16"
             android:text="标题在这里" />
@@ -38,6 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="提示"
+                android:maxLines="1"
                 android:textColor="@color/light_text_color"
                 android:textSize="@dimen/text_14"
                 android:layout_marginRight="5dp" />
