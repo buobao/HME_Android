@@ -18,6 +18,8 @@ import io.rong.imkit.RongIM;
 public class HmeApplication extends Application {
     private static Context mContext;
 
+    private RongIM.LocationProvider.LocationCallback locationCallback;
+
     public static Context getContext() {
         return mContext;
     }
@@ -43,6 +45,14 @@ public class HmeApplication extends Application {
         LocationUtil.init(this);
         //融云初始化
         RongIM.init(this);
+    }
+
+    public RongIM.LocationProvider.LocationCallback getLocationCallback() {
+        return locationCallback;
+    }
+
+    public void setLocationCallback(RongIM.LocationProvider.LocationCallback locationCallback) {
+        this.locationCallback = locationCallback;
     }
 }
 

@@ -5,6 +5,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
@@ -13,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
@@ -26,13 +28,10 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.AMap;
-import com.amap.api.maps.AMapOptions;
 import com.amap.api.maps.CameraUpdate;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
-import com.amap.api.maps.SupportMapFragment;
-import com.amap.api.maps.UiSettings;
 import com.amap.api.maps.model.BitmapDescriptor;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.CameraPosition;
@@ -54,40 +53,35 @@ import butterknife.BindView;
 import io.rong.message.LocationMessage;
 
 /**
- * Created by diaoqf on 2016/11/10.
+ * Created by AMing on 16/5/9.
+ * Company RongCloud
  */
-
-public class LocationMapActivity extends BaseActivity {
+public class LocationMapActivity extends BaseActivity implements LocationSource, GeocodeSearch.OnGeocodeSearchListener, AMapLocationListener, AMap.OnCameraChangeListener {
     static public final int REQUEST_CODE_ASK_PERMISSIONS = 101;
+    private AMap aMap;
+    private Handler handler = new Handler();
+    private LocationSource.OnLocationChangedListener listener;
+    private LatLng myLocation = null;
+    private Marker centerMarker;
+    private boolean isMovingMarker = false;
+    private BitmapDescriptor successDescripter;
+    private GeocodeSearch geocodeSearch;
+    private LocationMessage mMsg;
+    private boolean isPerview;
 
+    @BindView(R.id.map)
+    MapView mapView;
+    @BindView(R.id.card_layout)
+    CardView card_layout;
+    @BindView(R.id.location_tx)
+    TextView location_tx;
     @BindView(R.id.title)
     TextView title;
     @BindView(R.id.back)
     ImageView back;
+    @BindView(R.id.title_menu)
+    TextView title_menu;
 
-    @BindView(R.id.map)
-    MapView mapView;
-    @BindView(R.id.location_tx)
-    TextView location_tx;
-    @BindView(R.id.selector)
-    ImageView selector;
-    @BindView(R.id.card_layout)
-    CardView card_layout;
-
-    private boolean isMovingMarker = false;
-    private Handler handler = new Handler();
-
-    private ValueAnimator animator = null;
-    private LocationSource.OnLocationChangedListener listener;
-    private LatLng myLocation = null;
-    private LocationMessage mMsg;
-    private BitmapDescriptor successDescripter;
-    private Marker centerMarker;
-
-    private AMap map;
-    private UiSettings mUiSettings;
-
-    private GeocodeSearch geocodeSearch;
     private AMapLocationClient mapLocationClient = null;
     private AMapLocationClientOption mapLocationClientOption = null;
     private AMapLocationListener mapLocationListener = new AMapLocationListener() {
@@ -98,6 +92,7 @@ public class LocationMapActivity extends BaseActivity {
                     listener.onLocationChanged(aMapLocation);// 显示系统小蓝点
                 }
                 myLocation = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());//获取当前位置经纬度
+                Logger.i("myLocation:"+myLocation.latitude+","+myLocation.longitude);
                 location_tx.setText(aMapLocation.getRoad() + aMapLocation.getStreet() + aMapLocation.getPoiName());//当前位置信息
 
                 double latitude = aMapLocation.getLatitude();
@@ -109,12 +104,29 @@ public class LocationMapActivity extends BaseActivity {
         }
     };
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void init(Bundle savedInstanceState) {
-        title.setText("选择位置");
+        title.setText("选择地址");
         back.setVisibility(View.VISIBLE);
         back.setOnClickListener(v->onBackPressed());
         mapView.onCreate(savedInstanceState);
+        title_menu.setText("确定");
+        title_menu.setVisibility(View.VISIBLE);
+        //获取地址返回
+        title_menu.setOnClickListener(v->{
+            if (mApplication.getLocationCallback() != null) {
+                if (mMsg != null) {
+                    mApplication.getLocationCallback().onSuccess(mMsg);
+                } else {
+                    mApplication.getLocationCallback().onFailure("定位失败");
+                }
+                mApplication.setLocationCallback(null);
+            } else {
+                //其他获取地址处理
+            }
+            finish();
+        });
 
         if (Build.VERSION.SDK_INT >= 23) {
             int checkPermission = this.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION);
@@ -125,7 +137,6 @@ public class LocationMapActivity extends BaseActivity {
                     new AlertDialog.Builder(this)
                             .setMessage("您需要在设置里打开位置权限。")
                             .setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                                @RequiresApi(api = Build.VERSION_CODES.M)
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_ASK_PERMISSIONS);
@@ -138,87 +149,198 @@ public class LocationMapActivity extends BaseActivity {
             }
         }
 
-        initMap();
+        initAmap();
         setUpLocationStyle();
     }
 
-    private void initMap(){
-        if (map == null) {
-            map = mapView.getMap();
+    private void initAmap() {
+        if (aMap == null) {
+            aMap = mapView.getMap();
         }
-        map.setMapType(AMap.MAP_TYPE_NORMAL); //AMap.LOCATION_TYPE_LOCATE |
-        map.setMyLocationEnabled(true);
 
-        map.moveCamera(CameraUpdateFactory.zoomTo(15));    //设置地图的缩放级别
+        if (getIntent().hasExtra("location")) {
+            isPerview = true;
+            mMsg = getIntent().getParcelableExtra("location");
+            card_layout.setVisibility(View.GONE);
 
-        map.setLocationSource(new LocationSource() {
-            @Override
-            public void activate(OnLocationChangedListener onLocationChangedListener) {
-                if (mapLocationClient == null) {
-                    //定位
-                    mapLocationClient = new AMapLocationClient(LocationMapActivity.this);
-                    mapLocationClient.setLocationListener(mapLocationListener);
-                    mapLocationClientOption = new AMapLocationClientOption();
-                    //高精度模式 (低功耗模式:Battery_Saving, Device_Sensors)
-                    mapLocationClientOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
-                    //设置定位间隔
-                    mapLocationClientOption.setInterval(60000);
-                    //设置定位是否返回地址信息
-                    mapLocationClientOption.setNeedAddress(true);
-                    //设置超时时间
-                    mapLocationClientOption.setHttpTimeOut(10000);
-                    mapLocationClient.setLocationOption(mapLocationClientOption);
-                }
-                mapLocationClient.startLocation();
-            }
+            aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f)
+                    .position(new LatLng(mMsg.getLat(), mMsg.getLng())).title(mMsg.getPoi())
+                    .snippet(mMsg.getLat() + "," + mMsg.getLng()).draggable(false));
+            aMap.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition.Builder()
+                    .target(new LatLng(mMsg.getLat(), mMsg.getLng())).zoom(16).bearing(0).tilt(30).build()));
+            return;
+        }
 
-            @Override
-            public void deactivate() {
-                mapLocationClient.stopLocation();
-            }
-        });
-        map.getUiSettings().setZoomControlsEnabled(false);
-        map.getUiSettings().setMyLocationButtonEnabled(false);
+        aMap.setMapType(AMap.MAP_TYPE_NORMAL);
+        aMap.setLocationSource(this);// 设置定位监听
+        aMap.setMyLocationEnabled(true);
+        aMap.getUiSettings().setZoomControlsEnabled(false);
+        aMap.getUiSettings().setMyLocationButtonEnabled(false);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.zoomTo(15);//设置缩放监听
+        aMap.moveCamera(cameraUpdate);
 
+        successDescripter = BitmapDescriptorFactory.fromResource(R.drawable.sel_ic_location_big);
         geocodeSearch = new GeocodeSearch(this);
-        geocodeSearch.setOnGeocodeSearchListener(new GeocodeSearch.OnGeocodeSearchListener() {
+        geocodeSearch.setOnGeocodeSearchListener(this);
+    }
+
+    @Override
+    public void activate(OnLocationChangedListener onLocationChangedListener) {
+        listener = onLocationChangedListener;
+        if (mapLocationClient == null) {
+            //定位
+            mapLocationClient = new AMapLocationClient(LocationMapActivity.this);
+            mapLocationClient.setLocationListener(mapLocationListener);
+            mapLocationClientOption = new AMapLocationClientOption();
+            //高精度模式 (低功耗模式:Battery_Saving, Device_Sensors)
+            mapLocationClientOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+            //设置定位间隔
+            mapLocationClientOption.setInterval(60000);
+            //设置定位是否返回地址信息
+            mapLocationClientOption.setNeedAddress(true);
+            //设置超时时间
+            mapLocationClientOption.setHttpTimeOut(10000);
+            mapLocationClient.setLocationOption(mapLocationClientOption);
+        }
+        mapLocationClient.startLocation();
+    }
+
+    @Override
+    public void deactivate() {
+        if (mapLocationClient != null) {
+            mapLocationClient.stopLocation();
+        }
+    }
+
+    @Override
+    public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int i) {
+        if (i == 1000) {
+            if (regeocodeResult != null && regeocodeResult.getRegeocodeAddress() != null) {
+                endAnim();
+                centerMarker.setIcon(successDescripter);
+                RegeocodeAddress regeocodeAddress = regeocodeResult.getRegeocodeAddress();
+                String formatAddress = regeocodeResult.getRegeocodeAddress().getFormatAddress();
+                String shortAdd = formatAddress.replace(regeocodeAddress.getProvince(), "").replace(regeocodeAddress.getCity(), "").replace(regeocodeAddress.getDistrict(), "");
+                location_tx.setText(shortAdd);
+                double latitude = regeocodeResult.getRegeocodeQuery().getPoint().getLatitude();
+                double longitude = regeocodeResult.getRegeocodeQuery().getPoint().getLongitude();
+                mMsg = LocationMessage.obtain(latitude, longitude, shortAdd, getMapUrl(latitude, longitude));
+            } else {
+                toast("没有搜索到结果");
+            }
+        } else {
+            toast("搜索失败,请检查网络");
+        }
+    }
+
+    @Override
+    public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
+
+    }
+
+
+    @Override
+    public void onLocationChanged(AMapLocation aMapLocation) {
+        if (aMapLocation != null && aMapLocation.getErrorCode() == 0) {
+            if (listener != null) {
+                listener.onLocationChanged(aMapLocation);// 显示系统小蓝点
+            }
+            myLocation = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());//获取当前位置经纬度
+            location_tx.setText(aMapLocation.getRoad() + aMapLocation.getStreet() + aMapLocation.getPoiName());//当前位置信息
+
+            double latitude = aMapLocation.getLatitude();
+            double longitude = aMapLocation.getLongitude();
+            mMsg = LocationMessage.obtain(latitude, longitude, aMapLocation.getRoad() + aMapLocation.getStreet() + aMapLocation.getPoiName(), getMapUrl(latitude, longitude));
+            Logger.i(aMapLocation.getRoad() + aMapLocation.getStreet() + aMapLocation.getPoiName() + latitude + "----" + longitude);
+
+
+            addChooseMarker();
+        }
+    }
+
+    private void addChooseMarker() {
+        //加入自定义标签
+        MarkerOptions centerMarkerOption = new MarkerOptions().position(myLocation).icon(successDescripter);
+        centerMarker = aMap.addMarker(centerMarkerOption);
+        centerMarker.setPositionByPixels(mapView.getWidth() / 2, mapView.getHeight() / 2);
+        handler.postDelayed(new Runnable() {
             @Override
-            public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int i) {
-                if (i == 0) {
-                    if (regeocodeResult != null && regeocodeResult.getRegeocodeAddress() != null) {
-                        endAnim();
-                        centerMarker.setIcon(successDescripter);
-                        RegeocodeAddress regeocodeAddress = regeocodeResult.getRegeocodeAddress();
-                        String formatAddress = regeocodeResult.getRegeocodeAddress().getFormatAddress();
-                        String shortAdd = formatAddress.replace(regeocodeAddress.getProvince(), "").replace(regeocodeAddress.getCity(), "").replace(regeocodeAddress.getDistrict(), "");
-                        location_tx.setText(shortAdd);
-                        double latitude = regeocodeResult.getRegeocodeQuery().getPoint().getLatitude();
-                        double longitude = regeocodeResult.getRegeocodeQuery().getPoint().getLongitude();
-                        mMsg = LocationMessage.obtain(latitude, longitude, shortAdd, getMapUrl(latitude, longitude));
-                    } else {
-                        Logger.i("没有搜索到结果");
+            public void run() {
+                CameraUpdate update = CameraUpdateFactory.zoomTo(17f);
+                aMap.animateCamera(update, 1000, new AMap.CancelableCallback() {
+                    @Override
+                    public void onFinish() {
+                        aMap.setOnCameraChangeListener(LocationMapActivity.this);
                     }
-                } else {
-                    toast("搜索失败,请检查网络");
-                }
-            }
 
-            @Override
-            public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
-
+                    @Override
+                    public void onCancel() {
+                    }
+                });
             }
-        });
+        }, 1000);
     }
 
-    private void setUpLocationStyle() {
-        // 自定义系统定位蓝点
-        MyLocationStyle myLocationStyle = new MyLocationStyle();
-        myLocationStyle.myLocationIcon(BitmapDescriptorFactory.fromResource(R.drawable.img_location_now));
-        myLocationStyle.strokeWidth(0);
-        myLocationStyle.strokeColor(R.color.app_color);
-        myLocationStyle.radiusFillColor(Color.TRANSPARENT);
-        map.setMyLocationStyle(myLocationStyle);
+    private void setMovingMarker() {
+        if (isMovingMarker)
+            return;
+
+        isMovingMarker = true;
+        centerMarker.setIcon(successDescripter);
+        hideLocationView();
     }
+
+
+    @Override
+    public void onCameraChange(CameraPosition cameraPosition) {
+        if (centerMarker != null) {
+            setMovingMarker();
+        }
+    }
+
+    @Override
+    public void onCameraChangeFinish(CameraPosition cameraPosition) {
+        LatLonPoint point = new LatLonPoint(cameraPosition.target.latitude, cameraPosition.target.longitude);
+        RegeocodeQuery query = new RegeocodeQuery(point, 50, GeocodeSearch.AMAP);
+        geocodeSearch.getFromLocationAsyn(query);
+        if (centerMarker != null) {
+            animMarker();
+        }
+        showLocationView();
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mapView.onPause();
+        deactivate();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onDestroy() {
+        mapView.onDestroy();
+        super.onDestroy();
+    }
+
+    @Override
+    protected int getContentLayout() {
+        return R.layout.act_location_map;
+    }
+
+    private ValueAnimator animator = null;
 
     private void animMarker() {
         isMovingMarker = false;
@@ -247,25 +369,9 @@ public class LocationMapActivity extends BaseActivity {
         animator.start();
     }
 
-    private Uri getMapUrl(double x, double y) {
-        String url = "http://restapi.amap.com/v3/staticmap?location=" + y + "," + x +
-                "&zoom=16&scale=2&size=408*240&markers=mid,,A:" + y + ","
-                + x + "&key=" + "ee95e52bf08006f63fd29bcfbcf21df0";
-        return Uri.parse(url);
-    }
-
     private void endAnim() {
         if (animator != null && animator.isRunning())
             animator.end();
-    }
-
-    private void setMovingMarker() {
-        if (isMovingMarker)
-            return;
-
-        isMovingMarker = true;
-        centerMarker.setIcon(successDescripter);
-        hideLocationView();
     }
 
     private void hideLocationView() {
@@ -280,75 +386,25 @@ public class LocationMapActivity extends BaseActivity {
         animLocation.start();
     }
 
-    private void addChooseMarker() {
-        //加入自定义标签
-        MarkerOptions centerMarkerOption = new MarkerOptions().position(myLocation).icon(successDescripter);
-        centerMarker = map.addMarker(centerMarkerOption);
-        centerMarker.setPositionByPixels(mapView.getWidth() / 2, mapView.getHeight() / 2);
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                CameraUpdate update = CameraUpdateFactory.zoomTo(17f);
-                map.animateCamera(update, 1000, new AMap.CancelableCallback() {
-                    @Override
-                    public void onFinish() {
-                        map.setOnCameraChangeListener(new AMap.OnCameraChangeListener() {
-                            @Override
-                            public void onCameraChange(CameraPosition cameraPosition) {
-                                if (centerMarker != null) {
-                                    setMovingMarker();
-                                }
-                            }
-
-                            @Override
-                            public void onCameraChangeFinish(CameraPosition cameraPosition) {
-                                LatLonPoint point = new LatLonPoint(cameraPosition.target.latitude, cameraPosition.target.longitude);
-                                RegeocodeQuery query = new RegeocodeQuery(point, 50, GeocodeSearch.AMAP);
-                                geocodeSearch.getFromLocationAsyn(query);
-                                if (centerMarker != null) {
-                                    animMarker();
-                                }
-                                showLocationView();
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onCancel() {
-                    }
-                });
-            }
-        }, 1000);
+    private void setUpLocationStyle() {
+        // 自定义系统定位蓝点
+        MyLocationStyle myLocationStyle = new MyLocationStyle();
+        myLocationStyle.myLocationIcon(BitmapDescriptorFactory.
+                fromResource(R.drawable.img_location_now));
+        myLocationStyle.strokeWidth(0);
+        myLocationStyle.strokeColor(R.color.app_color);
+        myLocationStyle.radiusFillColor(Color.TRANSPARENT);
+        aMap.setMyLocationStyle(myLocationStyle);
     }
 
-    @Override
-    protected int getContentLayout() {
-        return R.layout.act_location_map;
+    private Uri getMapUrl(double x, double y) {
+        String url = "http://restapi.amap.com/v3/staticmap?location=" + y + "," + x +
+                "&zoom=16&scale=2&size=408*240&markers=mid,,A:" + y + ","
+                + x + "&key=" + "ee95e52bf08006f63fd29bcfbcf21df0";
+        Logger.i("getMapUrl:%s", url);
+        return Uri.parse(url);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mapView.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mapView.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mapView.onDestroy();
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        mapView.onSaveInstanceState(outState);
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -357,7 +413,7 @@ public class LocationMapActivity extends BaseActivity {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // Permission Granted
                     if (permissions[0].equals(Manifest.permission.ACCESS_FINE_LOCATION)) {
-                        initMap();
+                        initAmap();
                         setUpLocationStyle();
                     }
                 }
@@ -367,32 +423,3 @@ public class LocationMapActivity extends BaseActivity {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

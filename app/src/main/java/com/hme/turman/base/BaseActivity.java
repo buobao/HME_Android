@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.widget.Toast;
 
+import com.hme.turman.HmeApplication;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -21,6 +23,8 @@ import rx.subscriptions.CompositeSubscription;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
+    protected HmeApplication mApplication;
+
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
@@ -30,6 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mApplication = (HmeApplication) getApplication();
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         mCompositeSubscription = new CompositeSubscription();
         setContentView(getContentLayout());

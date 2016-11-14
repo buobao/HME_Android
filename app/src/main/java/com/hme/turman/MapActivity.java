@@ -56,9 +56,4 @@ public class MapActivity extends BaseActivity {
         super.onSaveInstanceState(outState);
         mapView.onSaveInstanceState(outState);
     }
-
-    @Override
-    protected boolean useEventBus() {
-        return false;
-    }
 }
