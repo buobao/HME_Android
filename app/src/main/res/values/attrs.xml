@@ -7,6 +7,7 @@
         <attr name="left_img" format="reference"/>
         <attr name="title" />
         <attr name="hint" format="string"/>
+        <attr name="hasIcon" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="SimpleItemLayout">

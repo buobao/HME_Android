@@ -1,8 +1,10 @@
 package com.hme.turman.ui.adapter;
 
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -10,6 +12,7 @@ import com.hme.turman.CacheData;
 import com.hme.turman.R;
 import com.hme.turman.api.bean.HelpEventBean;
 import com.hme.turman.base.ListBaseAdapter;
+import com.hme.turman.ui.activity.PhotoViewActivity;
 import com.hme.turman.utils.UiUtil;
 
 import java.util.ArrayList;
@@ -66,6 +69,11 @@ public class HelpEventAdapter extends ListBaseAdapter<HelpEventBean>  {
                     .fitCenter()
                     .into(vh.content_images.get(i));
         }
+        vh.item_image_layout.setOnClickListener(v->{
+            Intent intent = new Intent(parent.getContext(), PhotoViewActivity.class);
+            intent.putStringArrayListExtra(PhotoViewActivity.IMAGE_URL, (ArrayList<String>) getItem(position).getContentImage());
+            parent.getContext().startActivity(intent);
+        });
 
         return convertView;
     }
@@ -77,6 +85,7 @@ public class HelpEventAdapter extends ListBaseAdapter<HelpEventBean>  {
         private TextView item_content;
         private TextView item_location_tv;
         private ImageView item_conversation_chat;
+        private LinearLayout item_image_layout;
 
         private List<ImageView> content_images;
 
@@ -87,6 +96,7 @@ public class HelpEventAdapter extends ListBaseAdapter<HelpEventBean>  {
             item_content = (TextView) view.findViewById(R.id.item_content);
             item_location_tv = (TextView) view.findViewById(R.id.item_location_tv);
             item_conversation_chat = (ImageView) view.findViewById(R.id.item_conversation_chat);
+            item_image_layout = (LinearLayout) view.findViewById(R.id.image_layout);
             content_images = new ArrayList() {
                 {
                     add(view.findViewById(R.id.item_content_image_1));

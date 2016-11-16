@@ -48,7 +48,11 @@ public class FormItemLayout extends LinearLayout {
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FormItemLayout);
 
-        left_image.setImageDrawable(getResources().getDrawable(a.getResourceId(R.styleable.FormItemLayout_left_img, R.drawable.ic_main_tab_one_nor)));
+        if (a.getBoolean(R.styleable.FormItemLayout_hasIcon, true)) {
+            left_image.setImageDrawable(getResources().getDrawable(a.getResourceId(R.styleable.FormItemLayout_left_img, R.drawable.ic_main_tab_one_nor)));
+        } else {
+            left_image.setVisibility(GONE);
+        }
         title.setText(a.getText(R.styleable.FormItemLayout_title));
         hint.setText(a.getText(R.styleable.FormItemLayout_hint));
         a.recycle();
