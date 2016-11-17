@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/title_layout" />
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="@dimen/base_margin_left"
+        android:layout_marginRight="@dimen/base_margin_right"
+        android:background="@drawable/base_textview_bg"
+        android:hint="请输入昵称"
+        android:gravity="center_vertical"
+        android:lines="1"
+        android:maxLength="16"
+        android:textColor="@color/base_text_color"
+        android:textSize="@dimen/text_14"
+        android:textColorHint="@color/light_text_color" />
+
+</LinearLayout>

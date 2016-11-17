@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bm.library.PhotoView;
 import com.bumptech.glide.Glide;
@@ -34,6 +35,8 @@ public class PhotoViewActivity extends BaseActivity {
     ViewPager pager;
     @BindView(R.id.back)
     ImageView back;
+    @BindView(R.id.image_count)
+    TextView image_count;
 
     private ArrayList<String> img_urls;
 
@@ -42,6 +45,23 @@ public class PhotoViewActivity extends BaseActivity {
         img_urls = getIntent().getStringArrayListExtra(IMAGE_URL);
         back.setOnClickListener(v->onBackPressed());
         pager.setCurrentItem(getIntent().getIntExtra(CURRENT_PAGE,0));
+        image_count.setText("1/"+img_urls.size());
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                image_count.setText((position+1)+"/"+img_urls.size());
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         pager.setAdapter(new PagerAdapter() {
             @Override
             public int getCount() {

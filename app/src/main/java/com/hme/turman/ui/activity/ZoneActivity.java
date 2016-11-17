@@ -1,5 +1,6 @@
 package com.hme.turman.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -58,9 +59,7 @@ public class ZoneActivity extends BaseActivity {
         back.setVisibility(View.VISIBLE);
         back.setOnClickListener(v->onBackPressed());
 
-        title_menu.setOnClickListener(v->{
-            toast("到编辑页面");
-        });
+        title_menu.setOnClickListener(v->startActivity(new Intent(this,UserInfoEditActivity.class)));
 
         user_name.setText(CacheData.getDefault().getUserName());
         String address = CacheData.getDefault().getUserAddress();

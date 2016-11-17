@@ -70,6 +70,14 @@
             android:name=".ui.activity.LocationMapActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".ui.activity.PhotoViewActivity"/>
+        <activity android:name=".ui.activity.UserInfoEditActivity"/>
+
+
+        <!--图片选择-->
+        <activity android:name="me.iwf.photopicker.PhotoPickerActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity android:name="me.iwf.photopicker.PhotoPagerActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
 
         <!--高德定位-->
         <service android:name="com.amap.api.location.APSService"></service>

@@ -18,4 +18,14 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_left_white" />
 
+    <TextView
+        android:id="@+id/image_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:textSize="@dimen/text_14"
+        android:textColor="@color/base_text_color"
+        android:layout_marginBottom="20dp" />
+
 </RelativeLayout>
