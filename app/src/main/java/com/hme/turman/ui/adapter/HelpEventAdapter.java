@@ -67,6 +67,7 @@ public class HelpEventAdapter extends ListBaseAdapter<HelpEventBean>  {
                     .placeholder(R.drawable.default_portrait)
                     .error(R.drawable.default_portrait)
                     .fitCenter()
+//                    .override(50,50)
                     .into(vh.content_images.get(i));
         }
         vh.item_image_layout.setOnClickListener(v->{
