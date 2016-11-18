@@ -14,7 +14,6 @@ import com.hme.turman.utils.glide.GlideLoad;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringJoiner;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;

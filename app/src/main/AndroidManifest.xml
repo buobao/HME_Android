@@ -31,19 +31,19 @@
         android:theme="@style/AppTheme"
         android:name=".HmeApplication">
 
-        <activity android:name=".ui.activity.MainActivity"
-            android:screenOrientation="portrait">
+        <activity android:name=".ui.activity.LaunchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <activity android:name=".ui.activity.MainActivity"/>
         <activity android:name=".ui.activity.LoginActivity"/>
         <activity android:name=".ui.activity.PswLoginActivity"/>
         <activity android:name=".ui.activity.ZoneActivity"/>
         <activity android:name=".ui.activity.SettingActivity"/>
         <activity android:name=".ui.activity.ConversationListActivity"
-            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -55,7 +55,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activity.ConversationActivity"
-            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -66,9 +65,7 @@
                     android:scheme="rong" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.activity.LocationMapActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.LocationMapActivity" />
         <activity android:name=".ui.activity.PhotoViewActivity"/>
         <activity android:name=".ui.activity.UserInfoEditActivity"/>
 

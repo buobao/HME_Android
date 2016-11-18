@@ -8,6 +8,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!--启动主题-->
+    <style name="LaunchTheme" parent="AppTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
     <!-- 加载滚动条样式 -->
     <style name="loading">
         <item name="android:indeterminate">true</item>
