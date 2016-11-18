@@ -1,6 +1,7 @@
 package com.hme.turman;
 
 import com.amap.api.maps.model.LatLng;
+import com.hme.turman.utils.SHA1;
 import com.hme.turman.utils.SharedPreferencesUtil;
 import com.hme.turman.utils.UiUtil;
 
@@ -26,6 +27,7 @@ public class CacheData {
                         cacheData.setUserPhone(SharedPreferencesUtil.getString(Contents.USER_PHONE));
                         cacheData.setUserPsw(SharedPreferencesUtil.getString(Contents.USER_PSW));
                         cacheData.setUserPortrait(SharedPreferencesUtil.getString(Contents.USER_PORTRAIT));
+                        cacheData.setUserAge(SharedPreferencesUtil.getString(Contents.USER_AGE));
                         cacheData.setUserToken(SharedPreferencesUtil.getString(Contents.USER_TOKEN));
                         cacheData.setUserAddress(SharedPreferencesUtil.getString(Contents.USER_ADDRESS));
                         if (UiUtil.isNotEmpty(SharedPreferencesUtil.getString(Contents.USER_LAT))
@@ -82,6 +84,10 @@ public class CacheData {
      * 登录人性别
      */
     private String user_gender;
+    /**
+     * 登录人年龄层
+     */
+    private String user_age;
     /**
      * 登录人电话
      */
@@ -264,5 +270,14 @@ public class CacheData {
     public void setUserNickName(String user_nick_name) {
         this.user_nick_name = user_nick_name;
         SharedPreferencesUtil.saveString(Contents.USER_NICK_NAME, user_nick_name);
+    }
+
+    public String getUserAge() {
+        return user_age;
+    }
+
+    public void setUserAge(String user_age) {
+        this.user_age = user_age;
+        SharedPreferencesUtil.saveString(Contents.USER_AGE, user_age);
     }
 }

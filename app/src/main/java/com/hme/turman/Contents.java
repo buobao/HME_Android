@@ -33,6 +33,8 @@ public class Contents {
     public final static String USER_NICK_NAME = "user_nick_name";
     //当前登录的用户性别
     public final static String USER_GENDER = "user_gender";
+    //当前登录用户的年龄
+    public final static String USER_AGE = "user_age";
     //当前登录用户的移动电话
     public final static String USER_PHONE = "user_phone";
     //当前登录用户密码

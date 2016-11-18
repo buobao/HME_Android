@@ -5,7 +5,7 @@
 
     <include layout="@layout/title_layout" />
 
-    <TextView
+    <EditText
         android:id="@+id/user_name"
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -19,5 +19,7 @@
         android:textColor="@color/base_text_color"
         android:textSize="@dimen/text_14"
         android:textColorHint="@color/light_text_color" />
+
+
 
 </LinearLayout>

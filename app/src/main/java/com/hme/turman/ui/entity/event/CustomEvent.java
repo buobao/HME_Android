@@ -8,7 +8,8 @@ import java.util.Objects;
  */
 
 public class CustomEvent {
-    public static final String LOGIN_EVENT = "login_event";
+    public static final String LOGIN_EVENT = "login_event";   //登录时间
+    public static final String UPDATE_USER_INFO = "update_user_info";   //用户信息更新
 
     //消息类型
     private String type;

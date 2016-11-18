@@ -82,11 +82,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:background="@color/base_line_color"/>
-
             <RelativeLayout
                 android:id="@+id/user_portrait_upload"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="match_parent"
                 android:paddingLeft="@dimen/base_margin_left"
                 android:paddingRight="@dimen/base_margin_right">
 
@@ -104,6 +103,8 @@
                     android:layout_marginRight="5dp"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_centerVertical="true"
                     android:src="@drawable/default_portrait" />
 
@@ -136,6 +137,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/line_height_huge"
                 android:background="@color/base_line_color"/>
+
             <com.hme.turman.widgets.FormItemLayout
                 android:id="@+id/menu_user_age"
                 android:layout_width="match_parent"

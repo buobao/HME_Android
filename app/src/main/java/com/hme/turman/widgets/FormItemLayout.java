@@ -62,6 +62,10 @@ public class FormItemLayout extends LinearLayout {
         this.onItemClickListener = onItemClickListener;
     }
 
+    public void setHint(String text) {
+        hint.setText(text);
+    }
+
     public interface OnItemClickListener{
         void onClick(View v);
     }
