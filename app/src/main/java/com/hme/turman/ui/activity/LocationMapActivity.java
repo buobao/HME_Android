@@ -195,7 +195,8 @@ public class LocationMapActivity extends BaseActivity implements LocationSource,
             //高精度模式 (低功耗模式:Battery_Saving, Device_Sensors)
             mapLocationClientOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
             //设置定位间隔
-            mapLocationClientOption.setInterval(60000);
+//            mapLocationClientOption.setInterval(1000);
+            mapLocationClientOption.setOnceLocation(true);
             //设置定位是否返回地址信息
             mapLocationClientOption.setNeedAddress(true);
             //设置超时时间
