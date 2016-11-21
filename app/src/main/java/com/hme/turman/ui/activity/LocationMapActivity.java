@@ -49,8 +49,15 @@ import com.hme.turman.R;
 import com.hme.turman.base.BaseActivity;
 import com.orhanobut.logger.Logger;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
 import butterknife.BindView;
 import io.rong.message.LocationMessage;
+import rx.Observable;
+import rx.Subscriber;
 
 /**
  * Created by AMing on 16/5/9.
