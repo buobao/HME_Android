@@ -38,22 +38,11 @@ public class FindFragment extends BaseFragment {
     public static final int LIST_VIEW = 0;  //显示列表
     public static final int MAP_VIEW = 1;   //显示地图
 
-    @BindView(R.id.title)
-    TextView title;
-    @BindView(R.id.title_menu)
-    TextView title_menu;
-
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipe_refresh_layout;
     @BindView(R.id.listview)
     ListView listView;
 
-    @BindView(R.id.map)
-    MapView mapView;
-    private AMap map;
-    private UiSettings mUiSettings;
-
-    private int currentType=LIST_VIEW;
     private int mState;
 
     private int currentPage; //当前加载数据的页码
@@ -62,20 +51,29 @@ public class FindFragment extends BaseFragment {
     private HelpEventAdapter mAdapter;
 
     @Override
+    protected String getPageTitle() {
+        return "发现";
+    }
+
+    @Override
+    protected boolean showRightMenu() {
+        return true;
+    }
+
+    @Override
+    protected String getRightMenuTitle() {
+        return "地图";
+    }
+
+    @Override
+    protected View.OnClickListener getRightMenuListener() {
+        return v->{
+
+        };
+    }
+
+    @Override
     protected void init(Bundle savedInstanceState) {
-        title.setText("发现");
-        title_menu.setVisibility(View.VISIBLE);
-        title_menu.setText("地图");
-        title_menu.setOnClickListener(v->{
-            currentType = currentType == LIST_VIEW ? MAP_VIEW:LIST_VIEW;
-            if (currentType == MAP_VIEW) {
-                currentType = MAP_VIEW;
-                swipe_refresh_layout.setVisibility(View.GONE);
-            } else {
-                currentType = LIST_VIEW;
-                swipe_refresh_layout.setVisibility(View.VISIBLE);
-            }
-        });
         currentPage = 1;
         totalCount = -1;
         mState = STATE_UNREFRESH;
@@ -120,62 +118,11 @@ public class FindFragment extends BaseFragment {
         });
         //初始化加载数据
         loadData(true);
-
-//        initMap(savedInstanceState);
     }
 
     @Override
     protected int getLayoutId() {
         return R.layout.frg_find;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mapView.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mapView.onPause();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mapView.onDestroy();
-    }
-
-    /**
-     * 地图初始化
-     * @param savedInstanceState
-     */
-    private void initMap(Bundle savedInstanceState){
-        //if (map == null) {
-            mapView.onCreate(savedInstanceState);
-
-            map = mapView.getMap();
-            map.setMapType(AMap.MAP_TYPE_NORMAL);
-            map.setMyLocationEnabled(true);
-            map.setLocationSource(new LocationSource() {
-                @Override
-                public void activate(OnLocationChangedListener onLocationChangedListener) {
-
-                }
-
-                @Override
-                public void deactivate() {
-
-                }
-            });
-            mUiSettings = map.getUiSettings();
-            mUiSettings.setZoomControlsEnabled(false);
-            mUiSettings.setCompassEnabled(true);
-            mUiSettings.setScaleControlsEnabled(true);
-            mUiSettings.setMyLocationButtonEnabled(true);
-       // }
-
     }
 
     /** 设置顶部正在加载的状态 */

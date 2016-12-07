@@ -5,9 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hme.turman.HmeApplication;
+import com.hme.turman.R;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -44,6 +48,28 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (useEventBus()) {
             EventBus.getDefault().register(this);
         }
+
+        if (hasToolbar()) {
+            if (showBackButton()) {
+                if (getBackListener() != null) {
+                    findViewById(R.id.back).setOnClickListener(getBackListener());
+                } else {
+                    findViewById(R.id.back).setOnClickListener(v -> onBackPressed());
+                }
+                findViewById(R.id.back).setVisibility(View.VISIBLE);
+            } else {
+                findViewById(R.id.back).setVisibility(View.GONE);
+            }
+
+            if (showRightMenu()) {
+                findViewById(R.id.title_menu).setVisibility(View.VISIBLE);
+                ((TextView)findViewById(R.id.title_menu)).setText(getRightMenuTitle());
+                findViewById(R.id.title_menu).setOnClickListener(getRightMenuListener());
+            }
+
+            ((TextView)findViewById(R.id.title)).setText(getPageTitle());
+        }
+
         init(savedInstanceState);
     }
 
@@ -82,7 +108,61 @@ public abstract class BaseActivity extends AppCompatActivity {
         return false;
     }
 
+    /**
+     * 是否显示返回按钮
+     * @return
+     */
+    protected boolean showBackButton() {
+        return true;
+    }
 
+    /**
+     * 设置标题
+     * @return
+     */
+    protected String getPageTitle() {
+        return "";
+    }
+
+    /**
+     * 设置是否显示右侧菜单
+     * @return
+     */
+    protected boolean showRightMenu() {
+        return false;
+    }
+
+    /**
+     * 设置右侧菜单名称
+     * @return
+     */
+    protected String getRightMenuTitle() {
+        return "";
+    }
+
+    /**
+     * 设置右侧菜单点击事件
+     * @return
+     */
+    protected View.OnClickListener getRightMenuListener() {
+        return null;
+    }
+
+    /**
+     * 返回按钮事件
+     * @return
+     */
+    protected View.OnClickListener getBackListener() {
+        return null;
+    }
+
+    /**
+     * 是否添加工具栏
+     * @return
+     */
+    protected boolean hasToolbar() {
+        return true;
+    }
 
     //Utils
 

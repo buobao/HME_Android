@@ -3,7 +3,6 @@ package com.hme.turman.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hme.turman.CacheData;
@@ -20,13 +19,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class ZoneActivity extends BaseActivity {
-
-    @BindView(R.id.title)
-    TextView title;
-    @BindView(R.id.title_menu)
-    TextView title_menu;
-    @BindView(R.id.back)
-    ImageView back;
 
     @BindView(R.id.head_img)
     CircleImageView head_img;
@@ -50,17 +42,28 @@ public class ZoneActivity extends BaseActivity {
     @BindView(R.id.user_hobby)
     SimpleItemLayout user_hobby;
 
+    @Override
+    protected String getPageTitle() {
+        return "我的主页";
+    }
+
+    @Override
+    protected boolean showRightMenu() {
+        return true;
+    }
+
+    @Override
+    protected String getRightMenuTitle() {
+        return "编辑";
+    }
+
+    @Override
+    protected View.OnClickListener getRightMenuListener() {
+        return v->startActivity(new Intent(this,UserInfoEditActivity.class));
+    }
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        title.setText("我的主页");
-        title_menu.setVisibility(View.VISIBLE);
-        title_menu.setText("编辑");
-        back.setVisibility(View.VISIBLE);
-        back.setOnClickListener(v->onBackPressed());
-
-        title_menu.setOnClickListener(v->startActivity(new Intent(this,UserInfoEditActivity.class)));
-
         user_name.setText(CacheData.getDefault().getUserName());
         String address = CacheData.getDefault().getUserAddress();
         if (UiUtil.isNotEmpty(address)) {

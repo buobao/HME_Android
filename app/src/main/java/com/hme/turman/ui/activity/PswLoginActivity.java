@@ -19,12 +19,6 @@ import butterknife.BindView;
  */
 
 public class PswLoginActivity extends BaseActivity {
-
-    @BindView(R.id.back)
-    ImageView back;
-    @BindView(R.id.title)
-    TextView title;
-
     @BindView(R.id.input_phone)
     EditText input_phone;
     @BindView(R.id.input_psw)
@@ -40,11 +34,13 @@ public class PswLoginActivity extends BaseActivity {
     private boolean showPassword;
 
     @Override
+    protected String getPageTitle() {
+        return "密码登录";
+    }
+
+    @Override
     protected void init(Bundle savedInstanceState) {
         showPassword = false;
-        back.setVisibility(View.VISIBLE);
-        back.setOnClickListener(v->onBackPressed());
-        title.setText("密码登录");
 
         login_button.setOnClickListener(v->{
             if (UiUtil.checkPhone(input_phone.getText().toString()) && !input_psw.getText().toString().equals("")) {

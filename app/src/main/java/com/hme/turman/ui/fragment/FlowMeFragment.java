@@ -13,15 +13,13 @@ import butterknife.BindView;
  */
 public class FlowMeFragment extends BaseFragment {
 
-    @BindView(R.id.title)
-    TextView title;
-    @BindView(R.id.title_menu)
-    TextView title_menu;
-
+    @Override
+    protected String getPageTitle() {
+        return "跟我走";
+    }
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        title.setText("跟我走");
     }
 
     @Override

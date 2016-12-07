@@ -10,7 +10,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.amap.api.maps.model.Text;
 import com.hme.turman.R;
 import com.hme.turman.api.ApiHelper;
 import com.hme.turman.base.BaseActivity;
@@ -20,7 +19,6 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import butterknife.BindView;
-import io.rong.imkit.RongIM;
 import io.rong.imlib.MessageTag;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.TypingMessage.TypingStatus;
@@ -33,11 +31,11 @@ import io.rong.message.VoiceMessage;
  */
 
 public class ConversationActivity extends BaseActivity {
-
     @BindView(R.id.title)
     TextView title;
     @BindView(R.id.back)
     ImageView back;
+
     @BindView(R.id.input_status)
     TextView input_status;
 
@@ -63,12 +61,6 @@ public class ConversationActivity extends BaseActivity {
         mHandler  = new MyHandler(this);
         mTargetId = getIntent().getData().getQueryParameter("targetId");
         mConversationType = Conversation.ConversationType.valueOf(getIntent().getData().getPath().substring(getIntent().getData().getPath().lastIndexOf("/")+1).toUpperCase());
-        title.setText(getIntent().getData().getQueryParameter("title"));
-        back.setVisibility(View.VISIBLE);
-        back.setOnClickListener(v->{
-            InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            manager.hideSoftInputFromWindow(back.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
-            onBackPressed();});
 
         if (mConversationType == Conversation.ConversationType.PRIVATE) {
             addTask(ApiHelper.getUserOnlineStatus(mTargetId).subscribe(result -> {
@@ -112,10 +104,23 @@ public class ConversationActivity extends BaseActivity {
     }
 
     @Override
+    protected View.OnClickListener getBackListener() {
+        return v -> {
+            InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            manager.hideSoftInputFromWindow(back.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+            onBackPressed();
+        };
+    }
+
+    @Override
     protected int getContentLayout() {
         return R.layout.act_conversation;
     }
 
+    @Override
+    protected String getPageTitle() {
+        return getIntent().getData().getQueryParameter("title");
+    }
 
     static class MyHandler extends Handler {
 

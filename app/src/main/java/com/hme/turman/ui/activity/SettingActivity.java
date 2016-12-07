@@ -22,10 +22,6 @@ import io.rong.imkit.RongIM;
  */
 
 public class SettingActivity extends BaseActivity {
-    @BindView(R.id.title)
-    TextView title;
-    @BindView(R.id.back)
-    ImageView back;
     @BindView(R.id.set_location)
     FormItemLayout set_location;
 
@@ -33,10 +29,12 @@ public class SettingActivity extends BaseActivity {
     TextView logout;
 
     @Override
+    protected String getPageTitle() {
+        return "设置";
+    }
+
+    @Override
     protected void init(Bundle savedInstanceState) {
-        title.setText("设置");
-        back.setVisibility(View.VISIBLE);
-        back.setOnClickListener(v->onBackPressed());
         logout.setOnClickListener(v-> {
             CacheData.getDefault().setIsLogin(false);
             CacheData.getDefault().setUserNickName("");

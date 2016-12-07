@@ -23,7 +23,8 @@ public class SecondActivity extends Activity {
         setContentView(R.layout.act_second);
         ButterKnife.bind(this);
         test.setOnClickListener(v->{
-            EventBus.getDefault().post(new DemoEvent());
+//            EventBus.getDefault().post(new DemoEvent());
+
         });
     }
 }

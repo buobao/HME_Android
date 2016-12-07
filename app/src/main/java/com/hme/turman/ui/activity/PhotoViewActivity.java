@@ -125,4 +125,9 @@ public class PhotoViewActivity extends BaseActivity {
     protected int getContentLayout() {
         return R.layout.act_photo_view;
     }
+
+    @Override
+    protected boolean hasToolbar() {
+        return false;
+    }
 }

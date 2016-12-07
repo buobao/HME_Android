@@ -26,11 +26,6 @@ import butterknife.BindView;
  */
 
 public class LoginActivity extends BaseActivity {
-    @BindView(R.id.back)
-    ImageView back;
-    @BindView(R.id.title)
-    TextView title;
-
     @BindView(R.id.input_phone)
     EditText input_phone;
     @BindView(R.id.input_code)
@@ -43,11 +38,12 @@ public class LoginActivity extends BaseActivity {
     TextView psw_login;
 
     @Override
-    protected void init(Bundle savedInstanceState) {
-        back.setVisibility(View.VISIBLE);
-        back.setOnClickListener(v->onBackPressed());
-        title.setText("手机号快捷登录");
+    protected String getPageTitle() {
+        return "手机号快捷登录";
+    }
 
+    @Override
+    protected void init(Bundle savedInstanceState) {
         get_code.setOnClickListener(v->{
             if (UiUtil.checkPhone(input_phone.getText().toString())) {
                 get_code.setEnabled(false);

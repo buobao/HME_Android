@@ -17,11 +17,6 @@ import io.rong.imlib.model.Conversation;
 
 public class MyMessageFragment extends BaseFragment {
 
-    @BindView(R.id.title)
-    TextView title;
-    @BindView(R.id.title_menu)
-    TextView title_menu;
-
     @BindView(R.id.my_conversation)
     FormItemLayout my_conversation;
     @BindView(R.id.my_broadcast)
@@ -32,8 +27,12 @@ public class MyMessageFragment extends BaseFragment {
     FormItemLayout my_notice;
 
     @Override
+    protected String getPageTitle() {
+        return "消息";
+    }
+
+    @Override
     protected void init(Bundle savedInstanceState) {
-        title.setText("消息");
         my_conversation.setOnItemClickListener(v->{
             if (RongIM.getInstance() != null) {
                 RongIM.getInstance().startConversationList(getActivity());

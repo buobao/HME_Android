@@ -35,12 +35,6 @@ import me.iwf.photopicker.PhotoPreview;
  */
 
 public class UserInfoEditActivity extends BaseActivity {
-    @BindView(R.id.back)
-    ImageView back;
-    @BindView(R.id.title)
-    TextView title;
-    @BindView(R.id.title_menu)
-    TextView title_menu;
     @BindView(R.id.user_portrait_upload)
     RelativeLayout user_portrait_upload;
     @BindView(R.id.user_portrait)
@@ -57,16 +51,29 @@ public class UserInfoEditActivity extends BaseActivity {
     private String photoPath;
 
     @Override
-    protected void init(Bundle savedInstanceState) {
-        back.setVisibility(View.VISIBLE);
-        back.setOnClickListener(v->onBackPressed());
-        title.setText("资料编辑");
-        title_menu.setVisibility(View.VISIBLE);
-        title_menu.setText("提交");
-        title_menu.setOnClickListener(v->{
-            //提交处理
-        });
+    protected String getPageTitle() {
+        return "资料编辑";
+    }
 
+    @Override
+    protected boolean showRightMenu() {
+        return true;
+    }
+
+    @Override
+    protected String getRightMenuTitle() {
+        return "提交";
+    }
+
+    @Override
+    protected View.OnClickListener getRightMenuListener() {
+        return v->{
+            //提交处理
+        };
+    }
+
+    @Override
+    protected void init(Bundle savedInstanceState) {
         user_portrait_upload.setOnClickListener(v->{
             PhotoPicker.builder()
                     .setShowCamera(true)

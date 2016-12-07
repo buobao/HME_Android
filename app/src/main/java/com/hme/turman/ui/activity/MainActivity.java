@@ -255,6 +255,11 @@ public class MainActivity extends BaseActivity {
             }
         }
     }
+
+    @Override
+    protected boolean hasToolbar() {
+        return false;
+    }
 }
 
 

@@ -82,12 +82,6 @@ public class LocationMapActivity extends BaseActivity implements LocationSource,
     CardView card_layout;
     @BindView(R.id.location_tx)
     TextView location_tx;
-    @BindView(R.id.title)
-    TextView title;
-    @BindView(R.id.back)
-    ImageView back;
-    @BindView(R.id.title_menu)
-    TextView title_menu;
 
     private AMapLocationClient mapLocationClient = null;
     private AMapLocationClientOption mapLocationClientOption = null;
@@ -111,17 +105,25 @@ public class LocationMapActivity extends BaseActivity implements LocationSource,
         }
     };
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
-    protected void init(Bundle savedInstanceState) {
-        title.setText("选择地址");
-        back.setVisibility(View.VISIBLE);
-        back.setOnClickListener(v->onBackPressed());
-        mapView.onCreate(savedInstanceState);
-        title_menu.setText("确定");
-        title_menu.setVisibility(View.VISIBLE);
+    protected String getPageTitle() {
+        return "选择地址";
+    }
+
+    @Override
+    protected boolean showRightMenu() {
+        return true;
+    }
+
+    @Override
+    protected String getRightMenuTitle() {
+        return "确定";
+    }
+
+    @Override
+    protected View.OnClickListener getRightMenuListener() {
         //获取地址返回
-        title_menu.setOnClickListener(v->{
+        return v->{
             if (mApplication.getLocationCallback() != null) {
                 if (mMsg != null) {
                     mApplication.getLocationCallback().onSuccess(mMsg);
@@ -133,7 +135,13 @@ public class LocationMapActivity extends BaseActivity implements LocationSource,
                 //其他获取地址处理
             }
             finish();
-        });
+        };
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    protected void init(Bundle savedInstanceState) {
+        mapView.onCreate(savedInstanceState);
 
         if (Build.VERSION.SDK_INT >= 23) {
             int checkPermission = this.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION);

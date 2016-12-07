@@ -105,6 +105,9 @@ dependencies {
     compile 'com.android.support:design:24.2.1'
     compile 'com.nineoldandroids:library:2.4.0'
 
+    //广告位
+    compile 'com.bigkoo:convenientbanner:2.0.5'
+
     //svg animation plug
     compile 'com.eftimoff:android-pathview:1.0.8@aar'
 

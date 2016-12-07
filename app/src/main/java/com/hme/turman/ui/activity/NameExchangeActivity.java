@@ -22,19 +22,25 @@ import butterknife.BindView;
 public class NameExchangeActivity extends BaseActivity {
     @BindView(R.id.user_name)
     TextView user_name;
-    @BindView(R.id.title)
-    TextView title;
-    @BindView(R.id.title_menu)
-    TextView title_menu;
-    @BindView(R.id.back)
-    ImageView back;
 
     @Override
-    protected void init(Bundle savedInstanceState) {
-        title.setText("昵称");
-        title_menu.setText("提交");
-        title_menu.setVisibility(View.VISIBLE);
-        title_menu.setOnClickListener(v->{
+    protected String getPageTitle() {
+        return "昵称";
+    }
+
+    @Override
+    protected boolean showRightMenu() {
+        return true;
+    }
+
+    @Override
+    protected String getRightMenuTitle() {
+        return "提交";
+    }
+
+    @Override
+    protected View.OnClickListener getRightMenuListener() {
+        return v->{
             if (UiUtil.isNotEmpty(user_name.getText().toString())) {
                 CacheData.getDefault().setUserNickName(user_name.getText().toString());
                 EventBus.getDefault().post(new CustomEvent(CustomEvent.UPDATE_USER_INFO));
@@ -42,9 +48,11 @@ public class NameExchangeActivity extends BaseActivity {
             } else {
                 toast("请输入昵称");
             }
-        });
-        back.setOnClickListener(v->onBackPressed());
-        back.setVisibility(View.VISIBLE);
+        };
+    }
+
+    @Override
+    protected void init(Bundle savedInstanceState) {
     }
 
     @Override

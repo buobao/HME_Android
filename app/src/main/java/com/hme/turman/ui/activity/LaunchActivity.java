@@ -87,4 +87,9 @@ public class LaunchActivity extends BaseActivity {
     protected int getContentLayout() {
         return R.layout.act_launch;
     }
+
+    @Override
+    protected boolean hasToolbar() {
+        return false;
+    }
 }

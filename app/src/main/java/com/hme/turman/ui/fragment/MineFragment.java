@@ -46,22 +46,33 @@ public class MineFragment extends BaseFragment {
     @BindView(R.id.user_ranking_times)
     TextView user_ranking_times;
 
-    @BindView(R.id.title)
-    TextView title;
-    @BindView(R.id.title_menu)
-    TextView title_menu;
     @BindView(R.id.no_login_text)
     TextView no_login_text;
     @BindView(R.id.login_layout)
     LinearLayout login_layout;
 
     @Override
-    protected void init(Bundle savedInstanceState) {
-        title.setText("我的");
-        title_menu.setVisibility(View.VISIBLE);
-        title_menu.setText("联系我们");
-        title_menu.setOnClickListener(v->{toast("联系我们");});
+    protected String getPageTitle() {
+        return "我的";
+    }
 
+    @Override
+    protected boolean showRightMenu() {
+        return true;
+    }
+
+    @Override
+    protected String getRightMenuTitle() {
+        return "联系我们";
+    }
+
+    @Override
+    protected View.OnClickListener getRightMenuListener() {
+        return v->{toast("联系我们");};
+    }
+
+    @Override
+    protected void init(Bundle savedInstanceState) {
         //判断是否登录
         if (CacheData.getDefault().isLogin()) {
             no_login_text.setVisibility(View.GONE);
